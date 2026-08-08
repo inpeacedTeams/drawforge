@@ -18,95 +18,96 @@
   --font-mono:'JetBrains Mono', monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#101418;font-family:var(--font-body)}
-.deck{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px}
+html,body{background:#111;height:100%}
+body{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px;overflow-y:auto;font-family:var(--font-body)}
 .slide{
-  width:1280px;height:720px;flex:none;position:relative;overflow:hidden;padding:56px;
-  display:flex;flex-direction:column;border-radius:6px;
+  width:1280px;height:720px;flex:none;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;padding:56px;border-radius:6px;
   background:
-    radial-gradient(740px 470px at 12% 8%, rgba(201,73,47,.07), transparent 68%),
+    radial-gradient(740px 470px at 12% 8%, rgba(201,73,47,.06), transparent 68%),
     radial-gradient(600px 400px at 92% 88%, rgba(11,15,20,.05), transparent 70%),
     var(--background);
-  box-shadow:0 18px 50px rgba(0,0,0,.45);
 }
-h1,h2,h3{font-family:var(--font-display);letter-spacing:-.02em;color:var(--foreground)}
+h1,h2,h3{font-family:var(--font-display);letter-spacing:-0.02em;color:var(--foreground)}
 h1{font-weight:900;font-size:80px;line-height:1.05}
-h2{font-weight:700;font-size:44px;line-height:1.1}
-h3{font-weight:700;font-size:26px;line-height:1.2}
-p,li{font-size:24px;line-height:1.45;color:var(--ink-soft);max-width:640px}
+h2{font-weight:700;font-size:43px;line-height:1.1}
+h3{font-weight:700;font-size:29px;line-height:1.2}
+p,li{font-size:24px;line-height:1.45;color:var(--ink-soft);max-width:520px}
 em{font-style:italic;color:var(--accent);font-weight:600}
 strong{color:var(--foreground);font-weight:600}
-.dateline{font-family:var(--font-mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);display:flex;gap:18px}
+.dateline{font-family:var(--font-mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);display:flex;gap:18px;align-items:center}
 .dateline b{color:var(--accent);font-weight:500}
 .eyebrow{font-family:var(--font-mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
-ul{list-style:none;display:flex;flex-direction:column;gap:18px;counter-reset:li}
-li{padding-left:40px;position:relative}
+ul{list-style:none;display:flex;flex-direction:column;gap:18px;counter-reset:li;margin-top:36px}
+li{padding-left:38px;position:relative}
 li::before{content:counter(li,decimal-leading-zero);counter-increment:li;position:absolute;left:0;top:4px;font-family:var(--font-mono);font-size:16px;color:var(--accent)}
-.watermark{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--font-display);font-weight:900;font-size:260px;line-height:.8;color:var(--foreground);opacity:.06;letter-spacing:-.04em}
-.wm-right{right:-30px}.wm-left{left:-20px}
+.watermark{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--font-display);font-weight:900;font-size:266px;line-height:.8;color:var(--foreground);opacity:.06;letter-spacing:-0.04em;pointer-events:none}
+.wm-right{right:-26px}.wm-left{left:-20px}
 .hero{justify-content:space-between}
 .hero h1{font-size:126px}
-.hero .lead{font-size:27px;max-width:620px}
-.hero-foot{display:flex;gap:44px}
-.hero-foot .who{font-family:var(--font-mono);font-size:15px;line-height:1.7;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.1em}
+.hero .lead{font-size:27px;max-width:620px;margin-top:14px}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.hero-foot .who{font-family:var(--font-mono);font-size:16px;line-height:1.7;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.1em}
 .hero-foot .who span{color:var(--foreground)}
-.sun{position:absolute;right:-110px;top:-80px;width:420px;height:420px;border-radius:50%;border:2px solid rgba(201,73,47,.34)}
+.sun{position:absolute;right:-106px;top:-80px;width:413px;height:413px;border-radius:50%;border:2px solid rgba(201,73,47,.34);pointer-events:none}
 .sun::after{content:'';position:absolute;inset:80px;border-radius:50%;background:radial-gradient(circle, rgba(201,73,47,.16), transparent 68%);animation:breathe 7s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
-.center{justify-content:center;gap:32px}
-.stat-row{display:flex;align-items:baseline;gap:34px}
+.stat-hero{justify-content:center;gap:30px}
+.stat-row{display:flex;align-items:baseline;gap:32px}
 .stat-num{font-family:var(--font-display);font-weight:900;font-size:200px;line-height:.86;color:var(--foreground)}
 .stat-num i{font-style:normal;color:var(--accent)}
-.stat-side{max-width:430px}
+.stat-side{max-width:420px}
 .stat-side p{font-size:23px}
-blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-height:1.14;color:var(--foreground);max-width:1040px}
-.attr{font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.quote{justify-content:center;gap:32px}
+.quote blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-height:1.14;max-width:1000px;color:var(--foreground)}
+.quote .attr{font-family:var(--font-mono);font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px}
-.cell{border:1px solid var(--border);border-radius:4px;padding:22px;background:rgba(255,255,255,.42);display:flex;flex-direction:column;gap:10px}
+.cell{border:1px solid var(--border);border-radius:4px;padding:22px 21px;background:rgba(255,255,255,.42);display:flex;flex-direction:column;gap:9px}
 .cell .n{font-family:var(--font-mono);font-size:15px;color:var(--accent);letter-spacing:.1em}
 .cell h3{font-size:23px}
-.cell p{font-size:18px;max-width:none;line-height:1.4}
+.cell p{font-size:17px;max-width:none;line-height:1.4}
 .flow{display:flex;margin-top:46px}
 .flow-step{flex:1;padding:0 24px;position:relative}
 .flow-step:first-child{padding-left:0}
 .flow-step:not(:last-child)::after{content:'';position:absolute;right:0;top:10px;bottom:10px;width:1px;background:var(--border)}
 .flow-step .num{font-family:var(--font-mono);font-size:15px;color:var(--accent);letter-spacing:.12em}
-.flow-step h3{font-size:24px;margin:10px 0 8px}
+.flow-step h3{font-size:24px;margin:9px 0 8px}
 .flow-step p{font-size:17px;line-height:1.4;max-width:none}
-.scheme{display:flex;gap:54px;align-items:center;margin-top:34px}
-.scheme-art{position:relative;width:440px;height:350px;flex:none}
+.scheme{display:flex;gap:53px;align-items:center;margin-top:36px}
+.scheme-art{position:relative;width:440px;height:346px;flex:none}
 .pbox{position:absolute;border:2px solid var(--foreground);background:rgba(255,255,255,.55)}
-.pbox span{position:absolute;left:0;top:-24px;font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
-.p-top{left:80px;top:24px;width:174px;height:100px}
-.p-front{left:80px;top:194px;width:174px;height:126px}
-.p-side{left:294px;top:194px;width:100px;height:126px}
-.plink-v{position:absolute;left:167px;top:124px;height:70px;border-left:2px dashed rgba(201,73,47,.55)}
-.plink-h{position:absolute;left:254px;top:257px;width:40px;border-top:2px dashed rgba(201,73,47,.55)}
-.hole{position:absolute;left:140px;top:234px;width:50px;height:50px;border:2px solid var(--accent);border-radius:50%}
-.scheme-text{display:flex;flex-direction:column;gap:18px;max-width:440px}
+.pbox span{position:absolute;left:0;top:-23px;font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.p-top{left:80px;top:24px;width:173px;height:100px}
+.p-front{left:80px;top:193px;width:173px;height:126px}
+.p-side{left:293px;top:193px;width:100px;height:126px}
+.plink{position:absolute;border-left:2px dashed rgba(201,73,47,.55)}
+.plink.v{left:166px;top:124px;height:69px}
+.plink.h{left:253px;top:256px;width:40px;height:0;border-left:none;border-top:2px dashed rgba(201,73,47,.55)}
+.hole{position:absolute;left:140px;top:233px;width:49px;height:49px;border:2px solid var(--accent);border-radius:50%}
+.scheme-text{max-width:430px;display:flex;flex-direction:column;gap:17px}
 .scheme-text p{font-size:21px;max-width:none}
-.tech{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:34px}
-.tech-list{display:flex;flex-direction:column;gap:12px;margin-top:16px}
-.tech-list div{font-size:19px;color:var(--ink-soft);padding-left:24px;position:relative;line-height:1.4}
-.tech-list div::before{content:'';position:absolute;left:0;top:11px;width:12px;height:2px;background:var(--accent)}
-.mono-note{font-family:var(--font-mono);font-size:15px;color:var(--ink-faint);line-height:1.7;margin-top:24px}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:52px}
+.tech{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:36px;align-items:start}
+.tech-col h3{margin-bottom:16px}
+.tech-list{display:flex;flex-direction:column;gap:12px}
+.tech-list div{font-size:19px;color:var(--ink-soft);padding-left:23px;position:relative;line-height:1.4}
+.tech-list div::before{content:'';position:absolute;left:0;top:11px;width:11px;height:2px;background:var(--accent)}
+.mono-note{font-family:var(--font-mono);font-size:15px;color:var(--ink-faint);line-height:1.7;margin-top:23px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:53px}
 .metric .v{font-family:var(--font-display);font-weight:900;font-size:86px;line-height:.9;color:var(--foreground)}
 .metric .v i{font-style:normal;color:var(--accent)}
-.metric .k{font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:10px;line-height:1.5}
-.closer{align-items:center;justify-content:center;text-align:center;gap:28px}
+.metric .k{font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:11px;line-height:1.5}
+.closer{align-items:center;justify-content:center;text-align:center;gap:29px}
 .closer h1{font-size:88px;max-width:1000px}
-.closer::before{content:'';position:absolute;top:50%;left:50%;width:600px;height:600px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle, rgba(201,73,47,.13), transparent 68%);animation:breathe 6.5s ease-in-out infinite}
+.closer .final-note{font-family:var(--font-mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.closer::before{content:'';position:absolute;top:50%;left:50%;width:600px;height:600px;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;background:radial-gradient(circle, rgba(201,73,47,.13), transparent 68%);animation:breathe 6.5s ease-in-out infinite}
 @media print{
-  html,body{background:#fff}
-  .deck{gap:0;padding:0}
-  .slide{box-shadow:none;border-radius:0;page-break-after:always}
-  @page{size:1280px 720px;margin:0}
+  body{background:#fff;padding:0;gap:0;display:block}
+  .slide{width:100%;height:100vh;border-radius:0;page-break-after:always}
+  @page{size:landscape;margin:0}
 }
 </style>
 </head>
 <body>
-<div class="deck">
 
 <section class="slide hero">
   <div class="sun"></div>
@@ -122,7 +123,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
   </div>
 </section>
 
-<section class="slide center">
+<section class="slide stat-hero">
   <div class="dateline"><span>Проблема</span></div>
   <div class="stat-row">
     <div class="stat-num">3<i>D</i></div>
@@ -133,7 +134,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
   </div>
 </section>
 
-<section class="slide center">
+<section class="slide quote">
   <div class="watermark wm-right">ИДЕЯ</div>
   <div class="dateline"><span>Гипотеза</span></div>
   <blockquote>Если чертёж можно <em>сразу увидеть в объёме</em>, пространственное мышление тренируется само.</blockquote>
@@ -142,7 +143,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 
 <section class="slide">
   <div class="dateline"><span>Что сделано</span><b>Одно приложение</b></div>
-  <h2 style="margin-top:20px">Полноценный CAD в одном файле</h2>
+  <h2>Полноценный CAD в одном файле</h2>
   <div class="grid">
     <div class="cell"><div class="n">01</div><h3>Точная геометрия</h3><p>Линия, прямоугольник, окружность, ломаная, контур. Привязка к сетке.</p></div>
     <div class="cell"><div class="n">02</div><h3>Размеры числом</h3><p>Вписал ширину 100 и высоту 50, фигура сразу стала такой. Не на глаз.</p></div>
@@ -155,7 +156,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 
 <section class="slide">
   <div class="dateline"><span>Сценарий работы</span></div>
-  <h2 style="margin-top:20px">Пять шагов от листа до модели</h2>
+  <h2>Пять шагов от листа до модели</h2>
   <div class="flow">
     <div class="flow-step"><div class="num">01</div><h3>Начертить</h3><p>Выбрал инструмент и нарисовал фигуру на сетке.</p></div>
     <div class="flow-step"><div class="num">02</div><h3>Уточнить</h3><p>Вписал точные числа в панели свойств.</p></div>
@@ -167,14 +168,14 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 
 <section class="slide">
   <div class="dateline"><span>Главный алгоритм</span><b>Проекции → объём</b></div>
-  <h2 style="margin-top:20px">Программа читает чертёж как инженер</h2>
+  <h2>Программа читает чертёж как инженер</h2>
   <div class="scheme">
     <div class="scheme-art">
       <div class="pbox p-top"><span>Вид сверху</span></div>
       <div class="pbox p-front"><span>Фронтальная</span></div>
       <div class="pbox p-side"><span>Вид сбоку</span></div>
-      <div class="plink-v"></div>
-      <div class="plink-h"></div>
+      <div class="plink v"></div>
+      <div class="plink h"></div>
       <div class="hole"></div>
     </div>
     <div class="scheme-text">
@@ -188,9 +189,9 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 <section class="slide">
   <div class="watermark wm-left">КОД</div>
   <div class="dateline"><span>Техническая часть</span></div>
-  <h2 style="margin-top:20px">Ноль сторонних библиотек</h2>
+  <h2>Ноль сторонних библиотек</h2>
   <div class="tech">
-    <div>
+    <div class="tech-col">
       <h3>Что написано с нуля</h3>
       <div class="tech-list">
         <div>Геометрическое ядро: привязки, попадание курсора по фигуре, границы объектов</div>
@@ -199,7 +200,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
         <div>Генератор листа А4: рамка, штамп, автоподбор масштаба из стандартного ряда</div>
       </div>
     </div>
-    <div>
+    <div class="tech-col">
       <h3>Основа</h3>
       <div class="tech-list">
         <div>HTML, CSS и чистый JavaScript</div>
@@ -214,7 +215,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 
 <section class="slide">
   <div class="dateline"><span>Интерфейс</span><b>Учит сам</b></div>
-  <h2 style="margin-top:20px">Понятно без инструкции</h2>
+  <h2>Понятно без инструкции</h2>
   <div class="grid">
     <div class="cell"><div class="n">Обучение</div><h3>Тур из 11 шагов</h3><p>Подсвечивает элемент и объясняет, зачем он нужен. Запускается сам при первом входе.</p></div>
     <div class="cell"><div class="n">Язык</div><h3>Только русский</h3><p>«Линия», «Окружность», «Размер», «Вид сверху». Никаких непонятных терминов.</p></div>
@@ -224,7 +225,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 
 <section class="slide">
   <div class="dateline"><span>Результаты</span></div>
-  <h2 style="margin-top:20px">Что получилось измерить</h2>
+  <h2>Что получилось измерить</h2>
   <div class="metrics">
     <div class="metric"><div class="v">5</div><div class="k">форматов<br>экспорта</div></div>
     <div class="metric"><div class="v">3</div><div class="k">проекции<br>одной детали</div></div>
@@ -236,7 +237,7 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 
 <section class="slide">
   <div class="dateline"><span>Развитие</span></div>
-  <h2 style="margin:20px 0 34px">Куда проект идёт дальше</h2>
+  <h2>Куда проект идёт дальше</h2>
   <ul>
     <li>Скругления и фаски, чтобы детали выглядели как настоящие</li>
     <li>Сквозные пазы и вырезы по третьей проекции, а не только выдавливание</li>
@@ -249,9 +250,8 @@ blockquote{font-family:var(--font-display);font-weight:700;font-size:58px;line-h
 <section class="slide closer">
   <div class="eyebrow">Вывод</div>
   <h1>Чертёж перестал быть плоским.<br>Осталось <em>нажать одну кнопку</em>.</h1>
-  <div class="attr">Спасибо за внимание · готов ответить на вопросы</div>
+  <div class="final-note">Спасибо за внимание · готов ответить на вопросы</div>
 </section>
 
-</div>
 </body>
 </html>
