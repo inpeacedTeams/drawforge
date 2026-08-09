@@ -6,7 +6,7 @@
 <title>DrawForge — Черчение и 3D</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#f5f7fa;--surface:#fff;--panel:#f9fafb;--border:#e3e8ef;--border2:#d0d7e0;--text:#1a2030;--muted:#6b7a8d;--soft:#9aa8b8;--accent:#2563eb;--accent-soft:#eff4ff;--accent-hover:#1d4ed8;--green:#16a34a;--teal:#0f766e;--violet:#7c3aed;--r:10px;--r2:8px;--ease:cubic-bezier(.22,1,.36,1);--font:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--mono:"SF Mono","JetBrains Mono",ui-monospace,monospace;--shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 12px 40px rgba(0,0,0,.14)}
+:root{--bg:#f5f7fa;--surface:#fff;--panel:#f9fafb;--border:#e3e8ef;--border2:#d0d7e0;--text:#1a2030;--muted:#6b7a8d;--soft:#9aa8b8;--accent:#2563eb;--accent-soft:#eff4ff;--accent-hover:#1d4ed8;--green:#16a34a;--teal:#0f766e;--violet:#7c3aed;--amber:#b45309;--r:10px;--r2:8px;--ease:cubic-bezier(.22,1,.36,1);--font:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;--mono:"SF Mono","JetBrains Mono",ui-monospace,monospace;--shadow:0 2px 8px rgba(0,0,0,.06);--shadow-lg:0 12px 40px rgba(0,0,0,.14)}
 html,body{height:100%;overflow:hidden;font:14px/1.5 var(--font);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit;outline:none}
 .app{display:grid;grid-template-rows:54px 1fr;height:100vh}
@@ -15,37 +15,58 @@ button,input,select{font:inherit;outline:none}
 .hdr-center{display:flex;gap:4px;margin:0 auto}
 .pill{height:34px;padding:0 14px;border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:999px;cursor:pointer;font-size:13px;font-weight:500;transition:.15s var(--ease)}.pill:hover{border-color:var(--border2);color:var(--text)}.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
 .hdr-right{display:flex;gap:6px;align-items:center}
-.btn{height:34px;padding:0 12px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:var(--r2);cursor:pointer;font-size:13px;font-weight:500;transition:.15s var(--ease);display:inline-flex;align-items:center;gap:6px}.btn:hover{background:var(--panel);border-color:var(--border2)}.btn svg{width:15px;height:15px}
+.btn{height:34px;padding:0 12px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:var(--r2);cursor:pointer;font-size:13px;font-weight:500;transition:.15s var(--ease);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{background:var(--panel);border-color:var(--border2)}.btn svg{width:15px;height:15px}
 .btn-a{background:var(--accent);border-color:var(--accent);color:#fff}.btn-a:hover{background:var(--accent-hover)}
 .btn-g{background:var(--green);border-color:var(--green);color:#fff}.btn-g:hover{filter:brightness(1.06)}
 .btn.on{background:#e6fbf4;border-color:#9fdccd;color:#0f766e}
 .btn-icon{width:34px;padding:0;justify-content:center}
-.btn-dark{background:#1d2739;border-color:#2e3b52;color:#dde8f6}.btn-dark:hover{background:#26334a;border-color:#3b4b68}
+.btn-dark{background:#1d2739;border-color:#2e3b52;color:#dde8f6}.btn-dark:hover{background:#26334a}
 .btn-dark.on{background:#2563eb;border-color:#2563eb;color:#fff}
-.ws{display:grid;grid-template-columns:72px 1fr 260px;overflow:hidden}
+.ws{display:grid;grid-template-columns:74px 1fr 274px;overflow:hidden}
 .tools{background:var(--surface);border-right:1px solid var(--border);padding:10px 6px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
 .tdiv{height:1px;background:var(--border);margin:6px 4px}
-.ti{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:var(--r2);cursor:pointer;border:none;background:transparent;color:var(--muted);transition:.1s}.ti:hover{background:var(--panel);color:var(--text)}.ti.on{background:var(--accent-soft);color:var(--accent)}.ti svg{width:20px;height:20px}.ti span{font-size:9px;font-weight:600}
+.ti{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:var(--r2);cursor:pointer;border:none;background:transparent;color:var(--muted);transition:.1s}
+.ti:hover{background:var(--panel);color:var(--text)}.ti.on{background:var(--accent-soft);color:var(--accent)}
+.ti svg{width:20px;height:20px}.ti span{font-size:9px;font-weight:600}
 .stage{position:relative;overflow:hidden;background:var(--bg)}
 #c2d{position:absolute;inset:0;width:100%;height:100%}
 .ptabs{position:absolute;top:12px;left:50%;transform:translateX(-50%);display:none;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:4px;box-shadow:var(--shadow);z-index:6;gap:3px}.ptabs.on{display:flex}
 .ptab{height:30px;padding:0 12px;border:none;border-radius:999px;background:transparent;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;position:relative}.ptab:hover{color:var(--text)}.ptab.on{background:var(--accent);color:#fff}
 .ptab .badge{position:absolute;top:2px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--green);display:none}.ptab .badge.has{display:block}
 .sbar{position:absolute;bottom:0;left:0;right:0;height:30px;display:flex;align-items:center;gap:14px;padding:0 12px;background:var(--surface);border-top:1px solid var(--border);font:11px/1 var(--mono);color:var(--muted);z-index:6}.sbar b{color:var(--text);font-weight:500}
-.sdot{position:absolute;width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);transform:translate(-50%,-50%);pointer-events:none;display:none;z-index:7}.sdot.on{display:block}
+.sbar .tgl{cursor:pointer;padding:3px 7px;border-radius:5px}
+.sbar .tgl:hover{background:var(--panel)}
+.sbar .tgl.on{background:#e6fbf4;color:#0f766e}
+.snapdot{position:absolute;pointer-events:none;display:none;z-index:7;transform:translate(-50%,-50%)}
+.snapdot.on{display:block}
+.snaptip{position:absolute;pointer-events:none;display:none;z-index:7;font:10px/1 var(--mono);color:#fff;background:var(--teal);padding:3px 6px;border-radius:4px;white-space:nowrap}
+.snaptip.on{display:block}
 .mlabel{position:absolute;pointer-events:none;display:none;padding:3px 7px;border-radius:5px;background:var(--text);color:#fff;font:11px/1.2 var(--mono);z-index:7}.mlabel.on{display:block}
+.quick{position:absolute;display:none;z-index:9;background:var(--surface);border:1px solid var(--accent);border-radius:8px;box-shadow:var(--shadow-lg);padding:6px 8px;align-items:center;gap:7px}
+.quick.on{display:flex}
+.quick input{width:132px;height:26px;border:none;font:13px var(--mono);color:var(--text)}
+.quick label{font:10px var(--font);color:var(--muted);letter-spacing:.03em}
 .rpanel{background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .rpanel-hd{padding:12px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .rpanel-body{flex:1;overflow-y:auto;padding:12px}
 .sec{margin-bottom:14px}.sec-t{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);padding:10px}
 .row{display:flex;align-items:center;gap:8px;margin-bottom:6px}.row:last-child{margin:0}
-.lbl{width:64px;font-size:11px;color:var(--muted);flex-shrink:0}
+.lbl{width:70px;font-size:11px;color:var(--muted);flex-shrink:0}
 .lbl.wide{width:128px}
-.inp{flex:1;height:30px;padding:0 8px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font:12px var(--mono)}.inp:focus{border-color:var(--accent)}
+.inp{flex:1;min-width:0;height:30px;padding:0 8px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font:12px var(--mono)}.inp:focus{border-color:var(--accent)}
+.inp.sel{font-family:var(--font);font-size:12.5px}
 .empty{text-align:center;padding:16px 8px;color:var(--soft);font-size:13px;line-height:1.6}
-.check{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;user-select:none}
+.check{display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;user-select:none}
 .check input{width:16px;height:16px;accent-color:var(--accent)}
+.rolebar{display:flex;gap:4px;margin-bottom:8px}
+.rolebtn{flex:1;height:29px;border:1px solid var(--border);background:var(--surface);border-radius:7px;font-size:11.5px;color:var(--muted);cursor:pointer;transition:.12s}
+.rolebtn:hover{border-color:var(--border2)}
+.rolebtn.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.rolebtn.hole.on{background:var(--amber);border-color:var(--amber)}
+.rolebtn.boss.on{background:var(--green);border-color:var(--green)}
+.hint{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:7px}
 .combined{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;z-index:200}.combined.on{display:flex}
 .combined-hdr{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap}
 .combined-stage{flex:1;position:relative;overflow:hidden}
@@ -66,29 +87,33 @@ button,input,select{font:inherit;outline:none}
 .wcard{width:210px;padding:20px 16px;border:1px solid var(--border);border-radius:14px;background:var(--surface);cursor:pointer;transition:.2s var(--ease)}.wcard:hover{border-color:var(--accent);box-shadow:var(--shadow-lg);transform:translateY(-2px)}.wcard svg{width:38px;height:38px;color:var(--accent);margin-bottom:8px}.wcard h3{font-size:14px;margin-bottom:4px}.wcard p{font-size:12px;color:var(--muted)}
 .wtour{margin-top:20px;font-size:13px;color:var(--muted)}
 .wtour button{background:none;border:none;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
-.mbg{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;place-items:center;z-index:1000}.mbg.on{display:grid}
-.mdl{background:var(--surface);border-radius:14px;padding:22px;width:min(520px,calc(100% - 24px));box-shadow:var(--shadow-lg)}.mdl h2{font-size:17px;margin-bottom:12px}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;place-items:center;z-index:1000;padding:20px}.mbg.on{display:grid}
+.mdl{background:var(--surface);border-radius:14px;padding:22px;width:min(560px,100%);max-height:calc(100vh - 40px);overflow-y:auto;box-shadow:var(--shadow-lg)}
+.mdl h2{font-size:17px;margin-bottom:12px}
 .mdl-act{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-.toast{position:fixed;top:66px;right:16px;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);font-size:13px;z-index:1100;transform:translateX(150%);transition:.25s var(--ease)}.toast.on{transform:translateX(0)}
+.toast{position:fixed;top:66px;right:16px;padding:10px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);font-size:13px;z-index:1100;transform:translateX(150%);transition:.25s var(--ease);max-width:340px;line-height:1.45}.toast.on{transform:translateX(0)}
 .info-box{background:var(--accent-soft);border:1px solid #c7d9f5;border-radius:8px;padding:10px 12px;font-size:12px;color:#1e40af;line-height:1.5;margin-bottom:12px}
 .preview{margin-top:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff}
 .preview svg{display:block;width:100%;height:auto}
-.tour-dim{position:fixed;inset:0;z-index:2000;display:none;background:rgba(13,20,33,.55)}
-.tour-dim.on{display:block}
-.tour-hole{position:fixed;z-index:2001;display:none;border-radius:12px;pointer-events:none;box-shadow:0 0 0 9999px rgba(13,20,33,.55),0 0 0 3px var(--accent),0 8px 30px rgba(37,99,235,.35);transition:left .28s var(--ease),top .28s var(--ease),width .28s var(--ease),height .28s var(--ease)}
-.tour-hole.on{display:block}
-.tour-card{position:fixed;z-index:2002;display:none;width:330px;max-width:calc(100vw - 24px);background:var(--surface);border-radius:14px;padding:18px;box-shadow:0 20px 60px rgba(8,15,30,.35);transition:left .28s var(--ease),top .28s var(--ease)}
-.tour-card.on{display:block}
+.ftable{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}
+.ftable th{text-align:left;font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:0 8px 7px 0}
+.ftable td{padding:4px 8px 4px 0;border-top:1px solid var(--border)}
+.ftable select,.ftable input{height:29px;border:1px solid var(--border);border-radius:6px;padding:0 6px;background:var(--surface);color:var(--text);width:100%;font-size:12.5px}
+.ftable input{font-family:var(--mono);text-align:right}
+.tagd{display:inline-flex;align-items:center;gap:5px;font-size:12.5px}
+.dotm{width:9px;height:9px;border-radius:3px;flex:none}
+.tour-dim{position:fixed;inset:0;z-index:2000;display:none;background:rgba(13,20,33,.55)}.tour-dim.on{display:block}
+.tour-hole{position:fixed;z-index:2001;display:none;border-radius:12px;pointer-events:none;box-shadow:0 0 0 9999px rgba(13,20,33,.55),0 0 0 3px var(--accent);transition:left .28s var(--ease),top .28s var(--ease),width .28s var(--ease),height .28s var(--ease)}.tour-hole.on{display:block}
+.tour-card{position:fixed;z-index:2002;display:none;width:330px;max-width:calc(100vw - 24px);background:var(--surface);border-radius:14px;padding:18px;box-shadow:0 20px 60px rgba(8,15,30,.35);transition:left .28s var(--ease),top .28s var(--ease)}.tour-card.on{display:block}
 .tour-step{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-.tour-card h3{font-size:17px;margin-bottom:6px;letter-spacing:-.01em}
+.tour-card h3{font-size:17px;margin-bottom:6px}
 .tour-card p{font-size:13.5px;color:var(--muted);line-height:1.6}
 .tour-card .tour-tip{margin-top:10px;background:var(--accent-soft);border-radius:8px;padding:8px 10px;font-size:12.5px;color:#1e40af;line-height:1.5}
 .tour-nav{display:flex;align-items:center;gap:8px;margin-top:16px}
 .tour-dots{display:flex;gap:5px;margin-right:auto}
-.tour-dots i{width:7px;height:7px;border-radius:50%;background:var(--border2);display:block;transition:.2s var(--ease)}
+.tour-dots i{width:7px;height:7px;border-radius:50%;background:var(--border2);display:block;transition:.2s}
 .tour-dots i.on{background:var(--accent);transform:scale(1.25)}
-.tour-skip{position:fixed;z-index:2002;display:none;right:16px;top:14px}
-.tour-skip.on{display:block}
+.tour-skip{position:fixed;z-index:2002;display:none;right:16px;top:14px}.tour-skip.on{display:block}
 </style>
 </head>
 <body>
@@ -101,9 +126,9 @@ button,input,select{font:inherit;outline:none}
   </div>
   <div class="hdr-right">
     <button class="btn btn-icon" id="btnHelp" onclick="startTour()" title="Обучение"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1 .9-1 1.6v.4"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg></button>
-    <button class="btn" id="btnDims" onclick="toggleAutoDims()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="8" x2="4" y2="16"/><line x1="20" y1="8" x2="20" y2="16"/></svg>Разметка</button>
+    <button class="btn" id="btnDims" onclick="toggleAutoDims()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 8v8M20 8v8"/></svg>Разметка</button>
     <button class="btn" id="btnUnit" onclick="toggleUnit()">мм</button>
-    <button class="btn" id="btnUndo" onclick="undo()">Отменить</button>
+    <button class="btn btn-icon" onclick="undo()" title="Отменить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h13a4 4 0 010 8H8"/><path d="m3 10 4-4m-4 4 4 4"/></svg></button>
     <button class="btn" id="btnComb" style="display:none" onclick="openCombined()">Показать вместе</button>
     <button class="btn" id="btnSheet" onclick="openSheetExport()">Скачать чертёж</button>
     <button class="btn btn-a" id="btn3d" onclick="open3D()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5v10l-9 5-9-5V7z"/></svg>Создать 3D</button>
@@ -114,15 +139,16 @@ button,input,select{font:inherit;outline:none}
     <button class="ti on" data-t="select" onclick="setTool('select')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l6 18 2-7 7-2z"/></svg><span>Выбор</span></button>
     <button class="ti" data-t="pan" onclick="setTool('pan')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20m-10-10h20"/></svg><span>Двигать</span></button>
     <div class="tdiv"></div>
-    <button class="ti" data-t="line" onclick="setTool('line')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="19" x2="19" y2="5"/></svg><span>Линия</span></button>
+    <button class="ti" data-t="line" onclick="setTool('line')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19 19 5"/></svg><span>Линия</span></button>
     <button class="ti" data-t="rect" onclick="setTool('rect')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="1"/></svg><span>Прямоуг.</span></button>
     <button class="ti" data-t="circle" onclick="setTool('circle')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg><span>Окружн.</span></button>
+    <button class="ti" data-t="hole" onclick="setTool('hole')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="7"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke-dasharray="2 1.5"/></svg><span>Отверст.</span></button>
     <button class="ti" data-t="polyline" onclick="setTool('polyline')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4,18 9,7 15,14 20,4"/></svg><span>Ломаная</span></button>
     <button class="ti" data-t="polygon" onclick="setTool('polygon')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,3 20,9 17,19 7,19 4,9"/></svg><span>Контур</span></button>
     <div class="tdiv"></div>
-    <button class="ti" data-t="dimension" onclick="setTool('dimension')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="8" x2="4" y2="16"/><line x1="20" y1="8" x2="20" y2="16"/></svg><span>Размер</span></button>
+    <button class="ti" data-t="dimension" onclick="setTool('dimension')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 8v8M20 8v8"/></svg><span>Размер</span></button>
     <div class="tdiv"></div>
-    <button class="ti" data-t="erase" onclick="setTool('erase')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l5-5 12 12-5 5z"/><line x1="9" y1="18" x2="3" y2="18"/></svg><span>Удалить</span></button>
+    <button class="ti" data-t="erase" onclick="setTool('erase')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l5-5 12 12-5 5z"/><path d="M9 18H3"/></svg><span>Удалить</span></button>
   </aside>
   <main class="stage" id="stage">
     <canvas id="c2d"></canvas>
@@ -131,15 +157,23 @@ button,input,select{font:inherit;outline:none}
       <button class="ptab" data-p="top" onclick="switchProj('top')">Вид сверху<span class="badge"></span></button>
       <button class="ptab" data-p="side" onclick="switchProj('side')">Вид сбоку<span class="badge"></span></button>
     </div>
-    <div class="sdot" id="sdot"></div>
+    <div class="snapdot" id="snapdot"></div>
+    <div class="snaptip" id="snaptip"></div>
     <div class="mlabel" id="mlabel"></div>
-    <div class="sbar"><div>X: <b id="sX">0</b></div><div>Y: <b id="sY">0</b></div><div>|</div><div>Масштаб: <b id="sZ">100%</b></div><div style="margin-left:auto">Единицы: <b id="sUnit">мм</b></div></div>
+    <div class="quick" id="quick"><label id="quickLbl">Размер</label><input id="quickInp" autocomplete="off"></div>
+    <div class="sbar">
+      <div>X: <b id="sX">0</b></div><div>Y: <b id="sY">0</b></div><div>|</div>
+      <div>Масштаб: <b id="sZ">100%</b></div>
+      <div class="tgl on" id="tSnap" onclick="toggleSnap()">Привязка</div>
+      <div class="tgl" id="tOrtho" onclick="toggleOrtho()">Орто (Shift)</div>
+      <div style="margin-left:auto">Единицы: <b id="sUnit">мм</b></div>
+    </div>
   </main>
   <aside class="rpanel" id="rpanel">
     <div class="rpanel-hd">Свойства</div>
     <div class="rpanel-body">
-      <div id="inspector"><div class="empty">Выберите объект или начните рисовать. Здесь можно менять точные размеры.</div></div>
-      <div class="sec" style="margin-top:14px"><div class="sec-t">Подсказка</div><div class="card" style="font-size:12px;color:var(--muted);line-height:1.6" id="tipBox">Выберите инструмент слева и рисуйте на листе. Колёсико мыши меняет масштаб, зажатое колёсико двигает лист.</div></div>
+      <div id="inspector"><div class="empty">Выберите объект или начните рисовать. Здесь задаются точные размеры и параметры 3D.</div></div>
+      <div class="sec" style="margin-top:14px"><div class="sec-t">Подсказка</div><div class="card" style="font-size:12px;color:var(--muted);line-height:1.6" id="tipBox">Выберите инструмент слева и рисуйте на листе. Во время рисования можно ввести точный размер с клавиатуры.</div></div>
     </div>
   </aside>
 </div>
@@ -149,7 +183,7 @@ button,input,select{font:inherit;outline:none}
   <div class="combined-hdr"><strong>Общий чертёж (все проекции)</strong>
     <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap">
       <button class="btn" id="btnCombDims" onclick="toggleAutoDims()">Разметка размеров</button>
-      <button class="btn btn-g" onclick="openSheetExport()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 19h16"/></svg>Скачать чертёж</button>
+      <button class="btn btn-g" onclick="openSheetExport()">Скачать чертёж</button>
       <button class="btn btn-a" onclick="open3D()">Создать 3D-модель</button>
       <button class="btn" onclick="closeCombined()">Закрыть</button>
     </div>
@@ -162,6 +196,7 @@ button,input,select{font:inherit;outline:none}
     <strong>3D-модель</strong>
     <div style="margin-left:auto;display:flex;gap:6px">
       <button class="btn btn-dark" id="btnWire" onclick="toggleWire()">Каркас</button>
+      <button class="btn btn-dark" onclick="reopen3D()">Изменить</button>
       <button class="btn btn-dark" onclick="resetView()">Сбросить вид</button>
       <button class="btn btn-dark" onclick="closeViewer()">← Назад к чертежу</button>
     </div>
@@ -187,11 +222,17 @@ button,input,select{font:inherit;outline:none}
 <div class="wtour">Первый раз здесь? <button onclick="startWith('proj',true)">Пройдите короткое обучение</button></div>
 </div></div>
 
-<div class="mbg" id="m3d"><div class="mdl"><h2>Создать 3D-модель</h2>
-<div class="info-box" id="buildInfo"></div>
-<div class="row"><div class="lbl">Глубина</div><input class="inp" id="depthVal" type="number" value="40" min="1"><span style="font-size:12px;color:var(--muted)">мм</span></div>
-<p style="font-size:11px;color:var(--muted);margin-top:8px">В режиме «По проекциям» форму задаёт фронтальная проекция, глубину берём из вида сверху или сбоку.</p>
-<div class="mdl-act"><button class="btn" onclick="close3DModal()">Отмена</button><button class="btn btn-g" onclick="buildModel()">Построить</button></div></div></div>
+<div class="mbg" id="m3d"><div class="mdl">
+  <h2>Создать 3D-модель</h2>
+  <div class="info-box" id="buildInfo"></div>
+  <div class="row"><div class="lbl wide">Толщина детали</div><input class="inp" id="depthVal" type="number" value="40" min="1" oninput="renderFeatures()"><span style="font-size:12px;color:var(--muted)">мм</span></div>
+  <div class="sec" style="margin-top:14px">
+    <div class="sec-t">Элементы детали</div>
+    <div id="featTable"></div>
+    <div class="hint">Тело даёт объём, отверстие вырезает материал, выступ добавляет его сверху. У каждого элемента своя глубина: пусто значит на всю толщину.</div>
+  </div>
+  <div class="mdl-act"><button class="btn" onclick="close3DModal()">Отмена</button><button class="btn btn-g" onclick="buildModel()">Построить</button></div>
+</div></div>
 
 <div class="mbg" id="mExp"><div class="mdl"><h2>Экспорт</h2><div class="row"><div class="lbl">Формат</div><select class="inp" id="expFmt"><option value="svg">SVG</option><option value="dxf">DXF</option><option value="png">PNG</option><option value="json">JSON</option><option value="stl">STL (3D)</option></select></div><div class="mdl-act"><button class="btn" onclick="closeExport()">Отмена</button><button class="btn btn-a" onclick="doExport()">Скачать</button></div></div></div>
 
@@ -199,11 +240,12 @@ button,input,select{font:inherit;outline:none}
   <h2>Скачать чертёж на листе А4</h2>
   <div class="info-box">Рамка, штамп и масштаб из стандартного ряда. Ниже видно, как будет выглядеть лист.</div>
   <div class="row"><div class="lbl wide">Формат файла</div><select class="inp" id="shFmt"><option value="pdf">PDF (для печати)</option><option value="svg">SVG (векторный)</option><option value="png">PNG (картинка)</option></select></div>
-  <div class="row"><div class="lbl wide">Название работы</div><input class="inp" id="shTitle" value="Чертёж детали" oninput="refreshPreview()"></div>
-  <div class="row"><div class="lbl wide">Выполнил</div><input class="inp" id="shAuthor" placeholder="Имя и класс" oninput="refreshPreview()"></div>
+  <div class="row"><div class="lbl wide">Название работы</div><input class="inp sel" id="shTitle" value="Чертёж детали" oninput="refreshPreview()"></div>
+  <div class="row"><div class="lbl wide">Выполнил</div><input class="inp sel" id="shAuthor" placeholder="Имя и класс" oninput="refreshPreview()"></div>
   <div class="row"><div class="lbl wide">Единицы</div><select class="inp" id="shUnit" onchange="refreshPreview()"><option value="mm">миллиметры</option><option value="cm">сантиметры</option></select></div>
   <div class="row" style="margin-top:10px"><label class="check"><input type="checkbox" id="shDims" checked onchange="refreshPreview()"> Проставить размеры автоматически</label></div>
   <div class="row"><label class="check"><input type="checkbox" id="shLinks" checked onchange="refreshPreview()"> Линии проекционной связи</label></div>
+  <div class="row"><label class="check"><input type="checkbox" id="shAxis" checked onchange="refreshPreview()"> Осевые линии у окружностей</label></div>
   <div class="preview" id="shPreview"></div>
   <div class="mdl-act"><button class="btn" onclick="closeSheetExport()">Отмена</button><button class="btn btn-g" onclick="downloadSheet()">Скачать</button></div>
 </div></div>
