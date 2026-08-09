@@ -496,7 +496,7 @@ function removeSelected(){
 /* ============ РЕЖИМЫ ============ */
 function startWith(mode,withTour){
   $('#welcome').classList.add('off');setMode(mode);
-  setTimeout(function(){resizeAll();if(withTour)startTour();else if(!localStorage.getItem('df16_tour'))startTour()},60);
+  setTimeout(function(){resizeAll();if(withTour)startTour();else if(!localStorage.getItem('df15_tour'))startTour()},60);
 }
 function setMode(mode){
   S.mode=mode;$('#welcome').classList.add('off');
@@ -542,13 +542,18 @@ function shapeBounds(el){
 function polyOf(el){
   var i,out=[];
   if(el.type==='rect')return[{x:el.x,y:el.y},{x:el.x+el.w,y:el.y},{x:el.x+el.w,y:el.y+el.h},{x:el.x,y:el.y+el.h}];
-  if(el.type==='circle'){var n=72;for(i=0;i<n;i++){var a=i/n*Math.PI*2;out.push({x:el.cx+Math.cos(a)*el.r,y:el.cy+Math.sin(a)*el.r})}return out}
+  if(el.type==='circle'){var n=64;for(i=0;i<n;i++){var a=i/n*Math.PI*2;out.push({x:el.cx+Math.cos(a)*el.r,y:el.cy+Math.sin(a)*el.r})}return out}
   if(el.points&&el.points.length>2)return el.points.map(function(p){return{x:p.x,y:p.y}});
   return null;
 }
 function signedArea(p){var a=0;for(var i=0;i<p.length;i++){var j=(i+1)%p.length;a+=p[i].x*p[j].y-p[j].x*p[i].y}return a/2}
 function polyArea(p){return Math.abs(signedArea(p))}
 function centroid(p){var x=0,y=0;for(var i=0;i<p.length;i++){x+=p[i].x;y+=p[i].y}return{x:x/p.length,y:y/p.length}}
+function ringRadius(ring){
+  var c=centroid(ring),m=0,i,d;
+  for(i=0;i<ring.length;i++){d=Math.sqrt(Math.pow(ring[i].x-c.x,2)+Math.pow(ring[i].y-c.y,2));if(d>m)m=d}
+  return m||1;
+}
 function pointInPoly(pt,poly){
   var inside=false,i,j;
   for(i=0,j=poly.length-1;i<poly.length;j=i++){
@@ -631,22 +636,25 @@ function hostPartOf(item,map){
 /* ============ 3D ============ */
 var VIEWS={iso:{az:0.7854,el:0.6155,name:'Изометрия'},front:{az:0,el:0,name:'Спереди'},
   top:{az:0,el:1.5708,name:'Сверху'},side:{az:-1.5708,el:0,name:'Сбоку (справа)'}};
-var V={faces:[],clips:[],az:VIEWS.iso.az,el:VIEWS.iso.el,scale:1,cx:0,cy:0,drag:false,px:0,py:0,wire:false,zoom:1,
-  size:{x:0,y:0,z:0},bodies:0,holes:0,bosses:0};
+var V={faces:[],az:VIEWS.iso.az,el:VIEWS.iso.el,scale:1,cx:0,cy:0,drag:false,px:0,py:0,wire:false,zoom:1,
+  size:{x:0,y:0,z:0},bodies:0,holes:0,bosses:0,frame:0};
 var v3=$('#v3canvas'),v3ctx=v3.getContext('2d'),VW=1,VH=1;
 function ring3(ring,z){return ring.map(function(p){return[p.x,p.y,z]})}
-/* Заглянуть внутрь отверстия можно только через его устье, поэтому стенки
-   рисуем с обрезкой по контуру устья: иначе глубокий канал вылезает поверх
-   боковой грани детали. Рёбра стенок не обводим, иначе видны полосы. */
 function makeFaces(parts){
-  var faces=[],clips=[],i,k;
-  function wall(ring,z0,z1,cf,cb){
+  var faces=[],i,k;
+  /* стенку делим по длине: иначе сортировка по средней глубине врёт на длинных гранях */
+  function wall(ring,z0,z1,meta,segs){
+    segs=Math.max(1,segs||1);
     for(var j=0;j<ring.length;j++){
       var a=ring[j],b=ring[(j+1)%ring.length];
       var dx=b.x-a.x,dy=b.y-a.y,L=Math.sqrt(dx*dx+dy*dy)||1;
-      var f={rings:[[[a.x,a.y,z0],[b.x,b.y,z0],[b.x,b.y,z1],[a.x,a.y,z1]]],n:[dy/L,-dx/L,0]};
-      if(cf!==undefined){f.inner=true;f.cf=cf;f.cb=cb}
-      faces.push(f);
+      var nx=dy/L,ny=-dx/L,t;
+      for(t=0;t<segs;t++){
+        var za=z0+(z1-z0)*(t/segs),zb=z0+(z1-z0)*((t+1)/segs);
+        var f={rings:[[[a.x,a.y,za],[b.x,b.y,za],[b.x,b.y,zb],[a.x,a.y,zb]]],n:[nx,ny,0]};
+        if(meta)f.hole=meta;
+        faces.push(f);
+      }
     }
   }
   for(i=0;i<parts.length;i++){
@@ -658,17 +666,17 @@ function makeFaces(parts){
     var front=[ring3(p.outer,p.z1)];
     for(k=0;k<p.holes.length;k++)front.push(ring3(p.holes[k].ring,p.z1));
     faces.push({rings:front,n:[0,0,1]});
-    wall(p.outer,p.z0,p.z1);
+    wall(p.outer,p.z0,p.z1,null,1);
     for(k=0;k<p.holes.length;k++){
       var h=p.holes[k],bot=h.through?p.z0:Math.max(p.z0,p.z1-h.depth);
-      var cf=clips.length;clips.push(ring3(h.ring,p.z1));
-      var cb=-1;
-      if(h.through){cb=clips.length;clips.push(ring3(h.ring,p.z0))}
-      wall(h.ring,bot,p.z1,cf,cb);
-      if(!h.through&&bot>p.z0+0.001)faces.push({rings:[ring3(h.ring,bot)],n:[0,0,1],floor:true,inner:true,cf:cf,cb:-1});
+      var meta={top:ring3(h.ring,p.z1),bot:ring3(h.ring,bot),through:h.through};
+      var len=Math.abs(p.z1-bot),rad=ringRadius(h.ring);
+      var segs=Math.max(1,Math.min(28,Math.round(len/(rad*0.45))));
+      wall(h.ring,bot,p.z1,meta,segs);
+      if(!h.through&&bot>p.z0+0.001)faces.push({rings:[ring3(h.ring,bot)],n:[0,0,1],floor:true,hole:meta});
     }
   }
-  return{faces:faces,clips:clips};
+  return faces;
 }
 function rotate(p){
   var ca=Math.cos(V.az),sa=Math.sin(V.az),ce=Math.cos(V.el),se=Math.sin(V.el);
@@ -699,8 +707,21 @@ function recenter(){
   V.cx=VW/2-((minx+maxx)/2)*V.scale;
   V.cy=VH/2+((miny+maxy)/2)*V.scale;
 }
+/* внутренности отверстия рисуем только внутри его видимого устья */
+function holeClipPath(meta,useTop){
+  var key=(useTop?'t':'b')+'#'+V.frame;
+  if(meta._pk===key)return meta._pp;
+  var ring=useTop?meta.top:meta.bot,p=new Path2D(),k,q;
+  for(k=0;k<ring.length;k++){
+    q=rotate(ring[k]);
+    var sx=V.cx+q[0]*V.scale,sy=V.cy-q[1]*V.scale;
+    if(k===0)p.moveTo(sx,sy);else p.lineTo(sx,sy);
+  }
+  p.closePath();meta._pk=key;meta._pp=p;return p;
+}
 function draw3D(){
   var g=v3ctx;g.clearRect(0,0,VW,VH);
+  V.frame++;
   var bg=g.createLinearGradient(0,0,0,VH);bg.addColorStop(0,'#141b28');bg.addColorStop(1,'#0d1118');
   g.fillStyle=bg;g.fillRect(0,0,VW,VH);
   var step=Math.max(10,Math.round(Math.max(V.size.x,V.size.z)/4/10)*10),half=step*6,floor=-V.size.y/2-1,i,a,b;
@@ -711,56 +732,43 @@ function draw3D(){
     a=project([-half,floor,i*step]);b=project([half,floor,i*step]);
     g.beginPath();g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);g.stroke();
   }
+  var capTop=rotate([0,0,1])[2]>0;
   var L=[-0.3,0.62,0.72],Ln=Math.sqrt(L[0]*L[0]+L[1]*L[1]+L[2]*L[2]);
   L[0]/=Ln;L[1]/=Ln;L[2]/=Ln;
-  var camFront=rotate([0,0,1])[2]>0;
-  var clipCache=[];
-  function clipPoly(ci){
-    if(clipCache[ci])return clipCache[ci];
-    var src=V.clips[ci],out=[],j,q;
-    for(j=0;j<src.length;j++){q=rotate(src[j]);out.push([V.cx+q[0]*V.scale,V.cy-q[1]*V.scale])}
-    clipCache[ci]=out;return out;
-  }
   var list=[];
   for(i=0;i<V.faces.length;i++){
     var f=V.faces[i],n=rotate(f.n);
-    if(!V.wire&&n[2]<=0.0001)continue;
-    var cp=null;
-    if(f.inner&&!V.wire){
-      var ci=camFront?f.cf:f.cb;
-      if(!(ci>=0))continue;
-      cp=clipPoly(ci);
+    if(!V.wire){
+      if(n[2]<=0.0001)continue;
+      if(f.hole&&!capTop&&!f.hole.through)continue;
     }
     var sum=0,cnt=0;
     var rings=f.rings.map(function(r){return r.map(function(p){var q=rotate(p);sum+=q[2];cnt++;return q})});
     var lit=n[0]*L[0]+n[1]*L[1]+n[2]*L[2];
-    list.push({rings:rings,d:sum/Math.max(1,cnt),shade:Math.max(0.1,lit),floor:f.floor,inner:f.inner,clip:cp});
+    list.push({rings:rings,d:sum/Math.max(1,cnt),shade:Math.max(0.1,lit),floor:f.floor,hole:f.hole});
   }
   list.sort(function(x,y){return x.d-y.d});
   for(i=0;i<list.length;i++){
-    var fc=list[i],ri,ki,cl;
-    if(fc.clip){
-      g.save();g.beginPath();cl=fc.clip;
-      for(ki=0;ki<cl.length;ki++){if(ki===0)g.moveTo(cl[ki][0],cl[ki][1]);else g.lineTo(cl[ki][0],cl[ki][1])}
-      g.closePath();g.clip();
-    }
+    var fc=list[i],clipped=false;
+    if(fc.hole&&!V.wire){g.save();g.clip(holeClipPath(fc.hole,capTop));clipped=true}
     g.beginPath();
-    for(ri=0;ri<fc.rings.length;ri++){
-      var ring=fc.rings[ri];
-      for(ki=0;ki<ring.length;ki++){
-        var sx=V.cx+ring[ki][0]*V.scale, sy=V.cy-ring[ki][1]*V.scale;
-        if(ki===0)g.moveTo(sx,sy);else g.lineTo(sx,sy)}
+    for(var r=0;r<fc.rings.length;r++){
+      var ring=fc.rings[r];
+      for(var k=0;k<ring.length;k++){
+        var sx=V.cx+ring[k][0]*V.scale, sy=V.cy-ring[k][1]*V.scale;
+        if(k===0)g.moveTo(sx,sy);else g.lineTo(sx,sy)}
       g.closePath()}
     if(V.wire){g.strokeStyle='rgba(155,208,255,.75)';g.lineWidth=1;g.stroke()}
     else{
       var t=Math.min(1,0.26+fc.shade*0.86);
-      if(fc.floor)t*=0.72;
-      if(fc.inner)t*=0.88;
+      if(fc.hole)t*=0.82;
+      if(fc.floor)t*=0.8;
       g.fillStyle='rgb('+Math.round(34+t*114)+','+Math.round(92+t*114)+','+Math.round(146+t*100)+')';
       g.fill('evenodd');
-      if(!fc.inner){g.strokeStyle='rgba(9,18,32,.5)';g.lineWidth=1;g.stroke()}
+      /* грани внутри отверстия не обводим: от этого шли полоски */
+      if(!fc.hole){g.strokeStyle='rgba(9,18,32,.5)';g.lineWidth=1;g.stroke()}
     }
-    if(fc.clip)g.restore();
+    if(clipped)g.restore();
   }
 }
 function featureList(){
@@ -822,8 +830,7 @@ function buildModel(){
   var depth=Math.max(1,parseFloat($('#depthVal').value)||40);
   var parts=buildParts(depth);
   if(!parts.length){toast('Не нашёл ни одного тела. Проверьте роли элементов: хотя бы одна фигура должна быть телом.');return}
-  var res=makeFaces(parts);
-  V.faces=res.faces;V.clips=res.clips;V.zoom=1;V.wire=false;
+  V.faces=makeFaces(parts);V.zoom=1;V.wire=false;
   $('#btnWire').classList.remove('on');
   var minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9,minz=1e9,maxz=-1e9,i,k;
   for(i=0;i<parts.length;i++){
@@ -840,11 +847,12 @@ function buildModel(){
   for(i=0;i<parts.length;i++){V.holes+=parts[i].holes.length;
     if(parts[i].src&&parts[i].src.role==='boss')V.bosses++;else V.bodies++}
   var ox=(minx+maxx)/2,oy=(miny+maxy)/2,oz=(minz+maxz)/2;
-  for(i=0;i<V.faces.length;i++){var rings=V.faces[i].rings;
-    for(var r=0;r<rings.length;r++)for(k=0;k<rings[r].length;k++){
-      rings[r][k][0]-=ox;rings[r][k][1]-=oy;rings[r][k][2]-=oz}}
-  for(i=0;i<V.clips.length;i++){var cr=V.clips[i];
-    for(k=0;k<cr.length;k++){cr[k][0]-=ox;cr[k][1]-=oy;cr[k][2]-=oz}}
+  function moveRing(rr){for(var q=0;q<rr.length;q++){rr[q][0]-=ox;rr[q][1]-=oy;rr[q][2]-=oz}}
+  for(i=0;i<V.faces.length;i++){
+    var f=V.faces[i],rings=f.rings;
+    for(var r=0;r<rings.length;r++)moveRing(rings[r]);
+    if(f.hole&&!f.hole._moved){f.hole._moved=true;moveRing(f.hole.top);moveRing(f.hole.bot)}
+  }
   S.is3D=true;$('#viewer').classList.add('on');
   updateInfo3D();setView('iso');
   requestAnimationFrame(function(){fit3D();toast(V.holes?('Модель готова: отверстий '+V.holes):'3D-модель построена')});
@@ -1058,7 +1066,7 @@ function buildSheetSVG(opt){
   var DIMT=dims?11:0,DIMB=dims?11:0,DIML=dims?13:0,DIMR=dims?13:0;
   var LBL_TOP=LF+1.6+(dims?DIMT:0);
   var LBL_ROW=LF+1.6;
-  var lwT=T?textW(T.label,LF):0, lwF=F?textW(F.label,LF):0, lwS=SD?textW(SD.label,LF):0;
+  var lwF=F?textW(F.label,LF):0, lwS=SD?textW(SD.label,LF):0;
   function computeLayout(gapH){
     var denomW=Math.max(tw,fwv+sw);
     var extraW=DIML+DIMR+(sw?gapH:0);
@@ -1316,7 +1324,7 @@ function endTour(done){
   TOUR.active=false;
   $('#tourDim').classList.remove('on');$('#tourHole').classList.remove('on');
   $('#tourCard').classList.remove('on');$('#tourSkip').classList.remove('on');
-  localStorage.setItem('df16_tour','1');
+  localStorage.setItem('df15_tour','1');
   toast(done?'Обучение пройдено. Удачи с чертежом':'Обучение закрыто. Кнопка со знаком вопроса вернёт его');
 }
 function renderDots(){
@@ -1415,9 +1423,9 @@ document.addEventListener('keypress',function(e){
 });
 
 /* ============ ХРАНЕНИЕ ============ */
-function saveLocal(){localStorage.setItem('df16',JSON.stringify({s:S.sheet,p:S.projections,mode:S.mode,vp:S.viewport,nid:S.nextId,unit:S.unit,dims:S.autoDims}))}
+function saveLocal(){localStorage.setItem('df15',JSON.stringify({s:S.sheet,p:S.projections,mode:S.mode,vp:S.viewport,nid:S.nextId,unit:S.unit,dims:S.autoDims}))}
 function loadLocal(){
-  var raw=localStorage.getItem('df16')||localStorage.getItem('df15');if(!raw)return;
+  var raw=localStorage.getItem('df15');if(!raw)return;
   try{var d=JSON.parse(raw);
     S.sheet=d.s||[];S.projections=d.p||S.projections;S.mode=d.mode||'sheet';
     S.viewport=d.vp||S.viewport;S.nextId=d.nid||1;S.unit=d.unit||'mm';S.autoDims=!!d.dims}catch(err){}
