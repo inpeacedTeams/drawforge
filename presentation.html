@@ -49,6 +49,55 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 .cell .n{font-family:var(--font-mono);font-size:15px;color:var(--accent);letter-spacing:.1em}
 .cell h3{font-size:23px}
 .cell p{font-size:17px;max-width:none;line-height:1.4}
+
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:33px}
+.shot{display:flex;flex-direction:column;gap:12px}
+.frame{height:293px;border:1px solid rgba(11,15,20,.18);border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 9px 22px rgba(11,15,20,.1)}
+.shot .cap{font-family:var(--font-mono);font-size:13px;letter-spacing:.05em;color:var(--ink-faint);line-height:1.5}
+.shot .cap b{display:block;color:var(--foreground);font-weight:500;letter-spacing:.02em;font-size:15px;margin-bottom:3px}
+.ui{height:100%;display:flex;flex-direction:column;background:#f5f7fa}
+.ui-top{height:26px;flex:none;background:#fff;border-bottom:1px solid #e3e8ef;display:flex;align-items:center;gap:5px;padding:0 8px}
+.ui-logo{width:10px;height:10px;border-radius:3px;background:#2563eb}
+.ui-pill{height:11px;border-radius:99px;background:#eef1f5}
+.ui-pill.on{background:#2563eb}
+.ui-btn{height:11px;border-radius:3px;background:#eef1f5}
+.ui-btn.blue{background:#2563eb}
+.ui-body{flex:1;display:flex;min-height:0}
+.ui-left{width:31px;flex:none;background:#fff;border-right:1px solid #e3e8ef;padding:5px 4px;display:flex;flex-direction:column;gap:4px}
+.ui-tool{height:18px;border-radius:4px;background:#f0f3f7}
+.ui-tool.on{background:#eff4ff;box-shadow:inset 0 0 0 1px #c7d9f5}
+.ui-sep{height:1px;background:#e3e8ef;margin:2px 1px}
+.ui-canvas{flex:1;position:relative;background-image:linear-gradient(to right,#e9edf2 1px,transparent 1px),linear-gradient(to bottom,#e9edf2 1px,transparent 1px);background-size:10px 10px}
+.ui-tabs{position:absolute;top:6px;left:50%;transform:translateX(-50%);display:flex;gap:2px;background:#fff;border:1px solid #e3e8ef;border-radius:99px;padding:2px}
+.ui-tab{height:11px;width:35px;border-radius:99px;background:transparent}
+.ui-tab.on{background:#2563eb}
+.ui-tab.dot{position:relative}
+.ui-tab.dot::after{content:'';position:absolute;top:1px;right:3px;width:3px;height:3px;border-radius:50%;background:#16a34a}
+.ui-rect{position:absolute;left:38px;top:80px;width:100px;height:70px;border:2px solid #1a2030}
+.ui-circ{position:absolute;left:74px;top:103px;width:28px;height:28px;border:2px solid #1a2030;border-radius:50%}
+.ui-dim{position:absolute;left:38px;top:162px;width:100px;height:1px;background:#0f766e}
+.ui-dim::before,.ui-dim::after{content:'';position:absolute;top:-4px;width:1px;height:9px;background:#0f766e}
+.ui-dim::before{left:0}.ui-dim::after{right:0}
+.ui-dimtext{position:absolute;left:62px;top:167px;font:600 9px var(--font-mono);color:#0f766e}
+.ui-tip{position:absolute;left:142px;top:74px;padding:2px 4px;border-radius:3px;background:#1a2030;color:#fff;font:8px var(--font-mono);white-space:nowrap}
+.ui-status{height:15px;flex:none;background:#fff;border-top:1px solid #e3e8ef;display:flex;align-items:center;gap:7px;padding:0 7px}
+.ui-status i{display:block;height:4px;border-radius:2px;background:#e6eaf0}
+.ui-right{width:56px;flex:none;background:#fff;border-left:1px solid #e3e8ef;padding:6px 5px;display:flex;flex-direction:column;gap:5px}
+.ui-rlabel{height:5px;width:29px;border-radius:2px;background:#dfe4ea}
+.ui-rrow{display:flex;align-items:center;gap:3px}
+.ui-rkey{height:4px;width:15px;border-radius:2px;background:#e9edf2}
+.ui-rval{flex:1;height:10px;border-radius:3px;background:#f7f9fb;box-shadow:inset 0 0 0 1px #e3e8ef}
+.ui-rval.focus{box-shadow:inset 0 0 0 1.5px #2563eb}
+.frame.dark{background:#0e1117;border-color:#243049}
+.v3{height:100%;position:relative;display:flex;flex-direction:column}
+.v3-top{height:25px;flex:none;background:#151c29;border-bottom:1px solid #26324a;display:flex;align-items:center;gap:5px;padding:0 8px}
+.v3-btn{height:11px;border-radius:3px;background:#22304a}
+.v3-stage{flex:1;position:relative;min-height:0}
+.v3-badge{position:absolute;left:8px;top:8px;padding:3px 7px;border-radius:99px;background:rgba(15,21,33,.85);box-shadow:inset 0 0 0 1px #28344c;color:#9dc3f0;font:600 9px var(--font-mono)}
+.v3-views{position:absolute;right:8px;bottom:8px;display:flex;gap:3px}
+.v3-chip{height:10px;width:26px;border-radius:3px;background:#22304a}
+.v3-chip.on{background:#2563eb}
+
 .flow{display:flex;margin-top:46px}
 .flow-step{flex:1;padding:0 24px;position:relative}
 .flow-step:first-child{padding-left:0}
@@ -79,6 +128,9 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 .metric .v{font-family:var(--font-display);font-weight:900;font-size:86px;line-height:.9;color:var(--foreground)}
 .metric .v i{font-style:normal;color:var(--accent)}
 .metric .k{font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:11px;line-height:1.5}
+.link-slide{justify-content:center;gap:26px}
+.link-box{font-family:var(--font-mono);font-size:35px;color:var(--foreground)}
+.link-box i{font-style:normal;color:var(--accent)}
 .closer{align-items:center;justify-content:center;text-align:center;gap:29px}
 .closer h1{font-size:88px;max-width:1000px}
 .closer .final-note{font-family:var(--font-mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
@@ -130,6 +182,153 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
     <div class="cell"><div class="n">04</div><h3>Показать вместе</h3><p>Все виды собираются на одном листе по правилам с линиями связи.</p></div>
     <div class="cell"><div class="n">05</div><h3>Создать 3D</h3><p>Контур выдавливается в объём, круг внутри становится отверстием.</p></div>
     <div class="cell"><div class="n">06</div><h3>Экспорт</h3><p>Лист А4 в PDF и SVG, картинка PNG, чертёж DXF, модель STL для печати.</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="dateline"><span>Приложение</span><b>Три главных экрана</b></div>
+  <h2>Как это выглядит в работе</h2>
+  <div class="shots">
+
+    <div class="shot">
+      <div class="frame">
+        <div class="ui">
+          <div class="ui-top">
+            <div class="ui-logo"></div>
+            <div class="ui-pill on" style="width:30px"></div>
+            <div class="ui-pill" style="width:38px"></div>
+            <div style="margin-left:auto;display:flex;gap:4px">
+              <div class="ui-btn" style="width:15px"></div>
+              <div class="ui-btn" style="width:23px"></div>
+              <div class="ui-btn blue" style="width:30px"></div>
+            </div>
+          </div>
+          <div class="ui-body">
+            <div class="ui-left">
+              <div class="ui-tool"></div>
+              <div class="ui-tool"></div>
+              <div class="ui-sep"></div>
+              <div class="ui-tool"></div>
+              <div class="ui-tool on"></div>
+              <div class="ui-tool"></div>
+              <div class="ui-tool"></div>
+              <div class="ui-sep"></div>
+              <div class="ui-tool"></div>
+            </div>
+            <div class="ui-canvas">
+              <div class="ui-tabs">
+                <div class="ui-tab on dot"></div>
+                <div class="ui-tab dot"></div>
+                <div class="ui-tab"></div>
+              </div>
+              <div class="ui-rect"></div>
+              <div class="ui-circ"></div>
+              <div class="ui-dim"></div>
+              <div class="ui-dimtext">100 мм</div>
+              <div class="ui-tip">100 × 70 мм</div>
+            </div>
+            <div class="ui-right">
+              <div class="ui-rlabel"></div>
+              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval"></div></div>
+              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval"></div></div>
+              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval focus"></div></div>
+              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval"></div></div>
+              <div class="ui-rlabel" style="margin-top:4px"></div>
+              <div class="ui-rrow"><div class="ui-rval" style="height:18px"></div></div>
+            </div>
+          </div>
+          <div class="ui-status">
+            <i style="width:23px"></i><i style="width:23px"></i>
+            <i style="width:30px;margin-left:auto"></i>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>Редактор чертежа</b>Инструменты слева, точные размеры справа, вкладки проекций сверху</div>
+    </div>
+
+    <div class="shot">
+      <div class="frame">
+        <svg viewBox="0 0 480 440" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+          <rect width="480" height="440" fill="#f5f7fa"/>
+          <rect x="14" y="14" width="452" height="412" fill="#fff" stroke="#dfe4ea"/>
+          <g stroke="#eef1f5" stroke-width="1">
+            <path d="M14 78H466M14 142H466M14 206H466M14 270H466M14 334H466M78 14V426M142 14V426M206 14V426M270 14V426M334 14V426M398 14V426"/>
+          </g>
+          <g stroke="#aeb9c7" stroke-width="1" stroke-dasharray="4 3" fill="none">
+            <path d="M190 150V196"/><path d="M262 268H302"/>
+          </g>
+          <g fill="none" stroke="#1a2030" stroke-width="2.4">
+            <rect x="120" y="76" width="140" height="72"/>
+            <rect x="120" y="196" width="140" height="104"/>
+            <rect x="302" y="196" width="74" height="104"/>
+            <circle cx="190" cy="248" r="26"/>
+          </g>
+          <g font-family="'JetBrains Mono',monospace" font-size="12" fill="#8b95a3" letter-spacing="0.8">
+            <text x="120" y="66">ВИД СВЕРХУ</text>
+            <text x="120" y="186">ФРОНТАЛЬНАЯ</text>
+            <text x="302" y="186">ВИД СБОКУ</text>
+          </g>
+          <g stroke="#0f766e" stroke-width="1.4" fill="#0f766e">
+            <path d="M120 322H260"/>
+            <path d="M120 315V329M260 315V329"/>
+            <polygon points="120,322 130,318 130,326"/>
+            <polygon points="260,322 250,318 250,326"/>
+            <text x="172" y="314" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="600">140 мм</text>
+            <path d="M398 196V300"/>
+            <path d="M391 196H405M391 300H405"/>
+            <text x="360" y="252" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="600">104</text>
+          </g>
+          <g stroke="#c9492f" stroke-width="1.4" fill="#c9492f">
+            <path d="M208 230L246 206"/>
+            <text x="248" y="204" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="600">&#8960; 52</text>
+          </g>
+        </svg>
+      </div>
+      <div class="cap"><b>Показать вместе</b>Проекции по правилам, линии связи и автоматическая разметка размеров</div>
+    </div>
+
+    <div class="shot">
+      <div class="frame dark">
+        <div class="v3">
+          <div class="v3-top">
+            <div class="v3-btn" style="width:38px"></div>
+            <div style="margin-left:auto;display:flex;gap:4px">
+              <div class="v3-btn" style="width:23px"></div>
+              <div class="v3-btn" style="width:30px"></div>
+              <div class="v3-btn" style="width:38px"></div>
+            </div>
+          </div>
+          <div class="v3-stage">
+            <svg viewBox="0 0 480 380" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+              <g stroke="rgba(125,160,205,.14)" stroke-width="1">
+                <path d="M40 300L240 356M120 276L320 332M200 252L400 308M280 228L440 272"/>
+                <path d="M40 300L280 228M120 324L360 252M200 348L440 276"/>
+              </g>
+              <polygon points="120,132 300,86 420,124 240,170" fill="#7cb4f0"/>
+              <polygon points="120,132 240,170 240,300 120,262" fill="#4d8ed6"/>
+              <polygon points="240,170 420,124 420,254 240,300" fill="#63a3e6"/>
+              <g fill="none" stroke="#0b1524" stroke-opacity=".5" stroke-width="1.6">
+                <polygon points="120,132 300,86 420,124 240,170"/>
+                <polygon points="120,132 240,170 240,300 120,262"/>
+                <polygon points="240,170 420,124 420,254 240,300"/>
+              </g>
+              <ellipse cx="322" cy="207" rx="30" ry="34" fill="#0f1a2b"/>
+              <ellipse cx="322" cy="207" rx="30" ry="34" fill="none" stroke="#bfe0ff" stroke-width="1.6"/>
+              <path d="M292 207a30 34 0 0030 34" fill="none" stroke="#7fa8d4" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="v3-badge">Изометрия</div>
+          <div class="v3-views">
+            <div class="v3-chip on"></div>
+            <div class="v3-chip"></div>
+            <div class="v3-chip"></div>
+            <div class="v3-chip"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap"><b>3D-модель</b>Объём с отверстием, вращение мышью и виды спереди, сверху, сбоку</div>
+    </div>
+
   </div>
 </section>
 
@@ -212,6 +411,13 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
     <div class="metric"><div class="v">1</div><div class="k">файл<br>без установки</div></div>
   </div>
   <p style="margin-top:46px">Чертёж выгружается на лист А4 с рамкой, штампом и <em>честным масштабом</em>, поэтому работу можно сдать на печать как есть.</p>
+</section>
+
+<section class="slide link-slide">
+  <div class="dateline"><span>Попробуйте сами</span></div>
+  <h2>Приложение открыто в интернете</h2>
+  <div class="link-box">inpeacedteams.github.io<i>/drawforge</i></div>
+  <p>Ссылка работает с любого компьютера и телефона в школе: устанавливать ничего не нужно. Исходный код открыт на GitHub, им может пользоваться любой класс.</p>
 </section>
 
 <section class="slide">
