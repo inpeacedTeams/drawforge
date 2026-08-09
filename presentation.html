@@ -49,6 +49,16 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 .cell .n{font-family:var(--font-mono);font-size:15px;color:var(--accent);letter-spacing:.1em}
 .cell h3{font-size:23px}
 .cell p{font-size:17px;max-width:none;line-height:1.4}
+.shots-row{display:grid;grid-template-columns:repeat(3,1fr);gap:27px;margin-top:34px}
+.shot-col{display:flex;flex-direction:column}
+.shot{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(11,15,20,.1)}
+.shot .bar{height:24px;display:flex;align-items:center;gap:6px;padding:0 10px;background:#e9e2d5;border-bottom:1px solid var(--border)}
+.shot .bar i{width:6px;height:6px;border-radius:50%;background:rgba(11,15,20,.2);display:block}
+.shot .bar b{margin-left:7px;font-family:var(--font-mono);font-size:9px;font-weight:400;letter-spacing:.06em;color:var(--ink-faint)}
+.shot svg{display:block;width:100%;height:auto}
+.shot-cap{margin-top:15px}
+.shot-cap b{display:block;font-size:17px;font-weight:600;color:var(--foreground);margin-bottom:5px}
+.shot-cap span{font-size:15px;line-height:1.45;color:var(--ink-soft);display:block}
 .flow{display:flex;margin-top:46px}
 .flow-step{flex:1;padding:0 24px;position:relative}
 .flow-step:first-child{padding-left:0}
@@ -69,49 +79,6 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 .hole{position:absolute;left:140px;top:233px;width:49px;height:49px;border:2px solid var(--accent);border-radius:50%}
 .scheme-text{max-width:430px;display:flex;flex-direction:column;gap:17px}
 .scheme-text p{font-size:21px;max-width:none}
-.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:34px}
-.shot{display:flex;flex-direction:column;gap:12px}
-.frame{border:1px solid rgba(11,15,20,.18);border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 12px 26px rgba(11,15,20,.12)}
-.frame-bar{height:18px;background:#eef1f5;border-bottom:1px solid #dfe4ea;display:flex;align-items:center;gap:5px;padding:0 8px}
-.frame-bar i{width:5px;height:5px;border-radius:50%;background:#cfd6de;display:block}
-.frame-body{height:198px;position:relative;overflow:hidden}
-.shot-cap{font-family:var(--font-mono);font-size:13px;letter-spacing:.05em;color:var(--ink-faint);line-height:1.5}
-.shot-cap b{display:block;color:var(--foreground);font-weight:500;margin-bottom:3px;text-transform:uppercase;font-size:12px}
-.ui{display:flex;height:100%;background:#f5f7fa}
-.ui-rail{width:26px;background:#fff;border-right:1px solid #e3e8ef;padding:5px 0;display:flex;flex-direction:column;align-items:center;gap:5px}
-.ui-rail i{width:15px;height:11px;border-radius:3px;background:#eef2f7;display:block}
-.ui-rail i.on{background:#dbe8ff}
-.ui-main{flex:1;position:relative}
-.ui-grid{position:absolute;inset:0;background-image:linear-gradient(#e6eaef 1px,transparent 1px),linear-gradient(90deg,#e6eaef 1px,transparent 1px);background-size:10px 10px}
-.ui-side{width:42px;background:#fff;border-left:1px solid #e3e8ef;padding:6px 5px;display:flex;flex-direction:column;gap:5px}
-.ui-side i{height:8px;border-radius:2px;background:#eef2f7;display:block}
-.ui-side i.w70{width:70%}.ui-side i.w50{width:50%}
-.ui-tabs{position:absolute;top:6px;left:50%;transform:translateX(-50%);display:flex;gap:3px;background:#fff;border:1px solid #e3e8ef;border-radius:999px;padding:2px}
-.ui-tabs i{height:9px;border-radius:999px;background:#eef2f7;display:block}
-.ui-tabs i.on{background:#2563eb}
-.ui-tabs i.t1{width:28px}.ui-tabs i.t2{width:22px}.ui-tabs i.t3{width:20px}
-.ui-shape{position:absolute;border:2px solid #1a2030}
-.ui-dim{position:absolute;background:#16a34a;height:1px}
-.ui-dim::before,.ui-dim::after{content:'';position:absolute;top:-2px;width:1px;height:5px;background:#16a34a}
-.ui-dim::before{left:0}.ui-dim::after{right:0}
-.ui-num{position:absolute;font-family:var(--font-mono);font-size:8px;color:#0f766e;font-weight:500}
-.sheet{position:absolute;inset:0;background:#f5f7fa;display:grid;place-items:center}
-.sheet-inner{width:84%;height:82%;position:relative}
-.sv{position:absolute;border:2px solid #1a2030;background:#fff}
-.sv span{position:absolute;left:0;top:-11px;font-family:var(--font-mono);font-size:7px;color:#8b96a5}
-.sv-top{left:24%;top:4px;width:60px;height:34px}
-.sv-front{left:24%;top:70px;width:60px;height:44px}
-.sv-side{left:calc(24% + 74px);top:70px;width:34px;height:44px}
-.sl{position:absolute;border-left:1px dashed #b6c0cc}
-.sl.v{left:calc(24% + 30px);top:38px;height:32px}
-.sl.h{left:calc(24% + 60px);top:92px;width:14px;height:0;border-left:none;border-top:1px dashed #b6c0cc}
-.sv-hole{position:absolute;left:calc(24% + 21px);top:84px;width:18px;height:18px;border:2px solid #1a2030;border-radius:50%}
-.v3{position:absolute;inset:0;background:linear-gradient(#141b28,#0d1118);display:grid;place-items:center}
-.v3 svg{width:84%;height:auto}
-.v3-chip{position:absolute;left:8px;top:8px;font-family:var(--font-mono);font-size:7px;color:#9dc3f0;background:rgba(15,21,33,.85);border:1px solid #28344c;border-radius:999px;padding:2px 6px}
-.v3-btns{position:absolute;right:8px;bottom:8px;display:flex;gap:4px}
-.v3-btns i{width:23px;height:9px;border-radius:3px;background:#1d2739;border:1px solid #2e3b52;display:block}
-.v3-btns i.on{background:#2563eb;border-color:#2563eb}
 .tech{display:grid;grid-template-columns:1fr 1fr;gap:46px;margin-top:36px;align-items:start}
 .tech-col h3{margin-bottom:16px}
 .tech-list{display:flex;flex-direction:column;gap:12px}
@@ -124,8 +91,7 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 .metric .k{font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:11px;line-height:1.5}
 .closer{align-items:center;justify-content:center;text-align:center;gap:29px}
 .closer h1{font-size:88px;max-width:1000px}
-.closer .final-note{font-family:var(--font-mono);font-size:15px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);line-height:2}
-.closer .final-note b{color:var(--accent);font-weight:500;letter-spacing:.05em}
+.closer .final-note{font-family:var(--font-mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
 .closer::before{content:'';position:absolute;top:50%;left:50%;width:600px;height:600px;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;background:radial-gradient(circle, rgba(201,73,47,.13), transparent 68%);animation:breathe 6.5s ease-in-out infinite}
 @media print{body{background:#fff;padding:0;gap:0;display:block}.slide{width:100%;height:100vh;border-radius:0;page-break-after:always}@page{size:landscape;margin:0}}
 </style>
@@ -142,7 +108,7 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
   <div class="hero-foot">
     <div class="who">Выполнил<span>Руденко Егор</span></div>
     <div class="who">Руководитель<span>Зеленова Екатерина Александровна</span></div>
-    <div class="who">Школа<span>КСОШ №2</span></div>
+    <div class="who">Открыть в браузере<span>inpeacedteams.github.io/drawforge</span></div>
   </div>
 </section>
 
@@ -179,72 +145,163 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 
 <section class="slide">
   <div class="dateline"><span>Как это выглядит</span><b>Три экрана</b></div>
-  <h2>Один путь, три состояния программы</h2>
-  <div class="shots">
+  <h2>Один маршрут, три состояния программы</h2>
+  <div class="shots-row">
 
-    <div class="shot">
-      <div class="frame">
-        <div class="frame-bar"><i></i><i></i><i></i></div>
-        <div class="frame-body">
-          <div class="ui">
-            <div class="ui-rail"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="ui-main">
-              <div class="ui-grid"></div>
-              <div class="ui-tabs"><i class="t1 on"></i><i class="t2"></i><i class="t3"></i></div>
-              <div class="ui-shape" style="left:52px;top:78px;width:104px;height:62px"></div>
-              <div class="ui-shape" style="left:88px;top:94px;width:32px;height:32px;border-radius:50%"></div>
-              <div class="ui-dim" style="left:52px;top:152px;width:104px"></div>
-              <div class="ui-num" style="left:82px;top:155px">100 мм</div>
-            </div>
-            <div class="ui-side"><i class="w70"></i><i></i><i class="w50"></i><i></i><i class="w70"></i></div>
-          </div>
-        </div>
+    <div class="shot-col">
+      <div class="shot">
+        <div class="bar"><i></i><i></i><i></i><b>DrawForge · фронтальная проекция</b></div>
+        <svg viewBox="0 0 560 372" role="img" aria-label="Экран редактора">
+          <rect width="560" height="372" fill="#f5f7fa"/>
+          <g stroke="#e7ebf0" stroke-width="1">
+            <path d="M72 0V372M92 0V372M112 0V372M132 0V372M152 0V372M172 0V372M192 0V372M212 0V372M232 0V372M252 0V372M272 0V372M292 0V372M312 0V372M332 0V372M352 0V372M372 0V372M392 0V372M412 0V372M432 0V372"/>
+            <path d="M52 20H440M52 40H440M52 60H440M52 80H440M52 100H440M52 120H440M52 140H440M52 160H440M52 180H440M52 200H440M52 220H440M52 240H440M52 260H440M52 280H440M52 300H440M52 320H440M52 340H440M52 360H440"/>
+          </g>
+          <g stroke="#d7dee7" stroke-width="1.2">
+            <path d="M112 0V372M212 0V372M312 0V372M412 0V372"/>
+            <path d="M52 60H440M52 160H440M52 260H440M52 360H440"/>
+          </g>
+          <rect x="0" y="0" width="52" height="372" fill="#fff"/>
+          <path d="M52 0V372" stroke="#e3e8ef" stroke-width="1"/>
+          <rect x="12" y="14" width="28" height="26" rx="7" fill="#eff4ff"/>
+          <rect x="12" y="14" width="28" height="26" rx="7" fill="none" stroke="#2563eb" stroke-width="1.4"/>
+          <g fill="#c3ccd8">
+            <rect x="12" y="48" width="28" height="26" rx="7"/>
+            <rect x="12" y="86" width="28" height="26" rx="7"/>
+            <rect x="12" y="124" width="28" height="26" rx="7"/>
+            <rect x="12" y="162" width="28" height="26" rx="7"/>
+            <rect x="12" y="200" width="28" height="26" rx="7"/>
+            <rect x="12" y="238" width="28" height="26" rx="7"/>
+          </g>
+          <rect x="132" y="12" width="228" height="30" rx="15" fill="#fff" stroke="#e3e8ef"/>
+          <rect x="136" y="16" width="86" height="22" rx="11" fill="#2563eb"/>
+          <text x="179" y="31" font-family="Work Sans, sans-serif" font-size="11" fill="#fff" text-anchor="middle">Фронтальная</text>
+          <text x="256" y="31" font-family="Work Sans, sans-serif" font-size="11" fill="#8b98a8" text-anchor="middle">Сверху</text>
+          <text x="322" y="31" font-family="Work Sans, sans-serif" font-size="11" fill="#8b98a8" text-anchor="middle">Сбоку</text>
+          <circle cx="286" cy="20" r="3" fill="#16a34a"/>
+          <circle cx="348" cy="20" r="3" fill="#16a34a"/>
+          <rect x="132" y="140" width="180" height="120" fill="none" stroke="#1a2030" stroke-width="2.4"/>
+          <circle cx="222" cy="200" r="34" fill="none" stroke="#1a2030" stroke-width="2.4"/>
+          <g fill="#7c3aed">
+            <circle cx="132" cy="140" r="4.5"/><circle cx="312" cy="140" r="4.5"/>
+            <circle cx="312" cy="260" r="4.5"/><circle cx="132" cy="260" r="4.5"/>
+          </g>
+          <rect x="318" y="264" width="96" height="24" rx="6" fill="#1a2030"/>
+          <text x="366" y="280" font-family="JetBrains Mono, monospace" font-size="11" fill="#fff" text-anchor="middle">180 × 120 мм</text>
+          <path d="M310 258l14 12-6 1 3 7-3 1-3-7-5 4z" fill="#1a2030"/>
+          <rect x="440" y="0" width="120" height="372" fill="#fff"/>
+          <path d="M440 0V372" stroke="#e3e8ef" stroke-width="1"/>
+          <text x="454" y="26" font-family="Work Sans, sans-serif" font-size="10" letter-spacing="1" fill="#8b98a8">СВОЙСТВА</text>
+          <path d="M440 38H560" stroke="#e3e8ef"/>
+          <text x="454" y="60" font-family="Work Sans, sans-serif" font-size="10" fill="#6b7a8d">Прямоугольник</text>
+          <text x="454" y="82" font-family="Work Sans, sans-serif" font-size="9" fill="#8b98a8">Ширина</text>
+          <rect x="454" y="86" width="92" height="20" rx="5" fill="#f9fafb" stroke="#e3e8ef"/>
+          <text x="461" y="100" font-family="JetBrains Mono, monospace" font-size="10" fill="#1a2030">180.0</text>
+          <text x="454" y="122" font-family="Work Sans, sans-serif" font-size="9" fill="#8b98a8">Высота</text>
+          <rect x="454" y="126" width="92" height="20" rx="5" fill="#f9fafb" stroke="#2563eb"/>
+          <text x="461" y="140" font-family="JetBrains Mono, monospace" font-size="10" fill="#1a2030">120.0</text>
+          <text x="454" y="162" font-family="Work Sans, sans-serif" font-size="9" fill="#8b98a8">Диаметр отверстия</text>
+          <rect x="454" y="166" width="92" height="20" rx="5" fill="#f9fafb" stroke="#e3e8ef"/>
+          <text x="461" y="180" font-family="JetBrains Mono, monospace" font-size="10" fill="#1a2030">68.0</text>
+          <rect x="52" y="348" width="388" height="24" fill="#fff"/>
+          <path d="M52 348H440" stroke="#e3e8ef"/>
+          <text x="62" y="364" font-family="JetBrains Mono, monospace" font-size="10" fill="#8b98a8">X: 180.0   Y: 120.0   Масштаб: 100%   Единицы: мм</text>
+        </svg>
       </div>
-      <div class="shot-cap"><b>Редактор</b>Сетка, вкладки проекций и панель точных размеров</div>
+      <div class="shot-cap">
+        <b>Чертим проекцию</b>
+        <span>Сетка держит линии ровными, а справа сразу задаются точные числа.</span>
+      </div>
     </div>
 
-    <div class="shot">
-      <div class="frame">
-        <div class="frame-bar"><i></i><i></i><i></i></div>
-        <div class="frame-body">
-          <div class="sheet">
-            <div class="sheet-inner">
-              <div class="sv sv-top"><span>Вид сверху</span></div>
-              <div class="sv sv-front"><span>Фронтальная</span></div>
-              <div class="sv sv-side"><span>Вид сбоку</span></div>
-              <div class="sv-hole"></div>
-              <div class="sl v"></div>
-              <div class="sl h"></div>
-            </div>
-          </div>
-        </div>
+    <div class="shot-col">
+      <div class="shot">
+        <div class="bar"><i></i><i></i><i></i><b>Общий чертёж · разметка включена</b></div>
+        <svg viewBox="0 0 560 372" role="img" aria-label="Общий чертёж">
+          <rect width="560" height="372" fill="#f7f8fa"/>
+          <g stroke="#ecf0f4" stroke-width="1">
+            <path d="M40 0V372M60 0V372M80 0V372M100 0V372M120 0V372M140 0V372M160 0V372M180 0V372M200 0V372M220 0V372M240 0V372M260 0V372M280 0V372M300 0V372M320 0V372M340 0V372M360 0V372M380 0V372M400 0V372M420 0V372M440 0V372M460 0V372M480 0V372M500 0V372M520 0V372"/>
+            <path d="M0 40H560M0 60H560M0 80H560M0 100H560M0 120H560M0 140H560M0 160H560M0 180H560M0 200H560M0 220H560M0 240H560M0 260H560M0 280H560M0 300H560M0 320H560M0 340H560"/>
+          </g>
+          <text x="150" y="42" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" fill="#8b98a8">ВИД СВЕРХУ</text>
+          <rect x="150" y="52" width="170" height="66" fill="#fff" stroke="#1a2030" stroke-width="2"/>
+          <path d="M235 118V186" stroke="#c9492f" stroke-width="1.2" stroke-dasharray="5 4" opacity=".7"/>
+          <text x="150" y="176" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" fill="#8b98a8">ФРОНТАЛЬНАЯ</text>
+          <rect x="150" y="186" width="170" height="112" fill="#fff" stroke="#1a2030" stroke-width="2"/>
+          <circle cx="235" cy="242" r="30" fill="none" stroke="#1a2030" stroke-width="2"/>
+          <path d="M320 242H372" stroke="#c9492f" stroke-width="1.2" stroke-dasharray="5 4" opacity=".7"/>
+          <text x="372" y="176" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1" fill="#8b98a8">ВИД СБОКУ</text>
+          <rect x="372" y="186" width="76" height="112" fill="#fff" stroke="#1a2030" stroke-width="2"/>
+          <g stroke="#0f766e" fill="#0f766e" stroke-width="1.1">
+            <path d="M150 302V326M320 302V326" stroke-dasharray="3 2.5"/>
+            <path d="M150 318H320"/>
+            <path d="M150 318l9 3.4v-6.8zM320 318l-9 3.4v-6.8z" stroke="none"/>
+            <text x="235" y="313" font-family="Work Sans, sans-serif" font-size="11" font-weight="600" text-anchor="middle" stroke="none">170 мм</text>
+            <path d="M456 186H478M456 298H478" stroke-dasharray="3 2.5"/>
+            <path d="M470 186V298"/>
+            <path d="M470 186l3.4 9h-6.8zM470 298l3.4-9h-6.8z" stroke="none"/>
+            <text x="484" y="246" font-family="Work Sans, sans-serif" font-size="11" font-weight="600" stroke="none">112 мм</text>
+            <path d="M256 221l30-22"/>
+            <text x="290" y="196" font-family="Work Sans, sans-serif" font-size="11" font-weight="600" stroke="none">&#8960; 60 мм</text>
+          </g>
+          <rect x="20" y="14" width="520" height="344" fill="none" stroke="#c3ccd8" stroke-width="1.4"/>
+          <rect x="372" y="316" width="168" height="42" fill="#fff" stroke="#c3ccd8"/>
+          <path d="M372 330H540M456 330V358" stroke="#c3ccd8"/>
+          <text x="378" y="327" font-family="Work Sans, sans-serif" font-size="9" font-weight="600" fill="#1a2030">Чертёж детали</text>
+          <text x="378" y="347" font-family="Work Sans, sans-serif" font-size="8" fill="#6b7a8d">Руденко Егор</text>
+          <text x="462" y="347" font-family="Work Sans, sans-serif" font-size="8" fill="#6b7a8d">М 1:2</text>
+        </svg>
       </div>
-      <div class="shot-cap"><b>Показать вместе</b>Вид сверху над фронтальной, сбоку справа, линии связи</div>
+      <div class="shot-cap">
+        <b>Собираем вместе</b>
+        <span>Лист А4 со штампом, масштабом и размерами. Можно сразу печатать.</span>
+      </div>
     </div>
 
-    <div class="shot">
-      <div class="frame">
-        <div class="frame-bar"><i></i><i></i><i></i></div>
-        <div class="frame-body">
-          <div class="v3">
-            <svg viewBox="0 0 300 220" fill="none">
-              <g stroke="#0b1220" stroke-width="1.4" stroke-linejoin="round">
-                <path d="M60 78 L170 42 L246 74 L136 112 Z" fill="#8dc0f2"/>
-                <path d="M60 78 L136 112 L136 186 L60 150 Z" fill="#4f93dd"/>
-                <path d="M136 112 L246 74 L246 146 L136 186 Z" fill="#69a7e8"/>
-                <ellipse cx="152" cy="77" rx="27" ry="14" fill="#2f6ba8"/>
-                <ellipse cx="152" cy="83" rx="27" ry="14" fill="#1f4c7d"/>
-              </g>
-              <g stroke="rgba(150,190,235,.28)" stroke-width="1">
-                <path d="M20 176 L140 210"/><path d="M70 160 L190 196"/><path d="M120 146 L240 182"/>
-              </g>
-            </svg>
-            <div class="v3-chip">Изометрия</div>
-            <div class="v3-btns"><i class="on"></i><i></i><i></i><i></i></div>
-          </div>
-        </div>
+    <div class="shot-col">
+      <div class="shot">
+        <div class="bar"><i></i><i></i><i></i><b>3D-модель · изометрия</b></div>
+        <svg viewBox="0 0 560 372" role="img" aria-label="Просмотрщик 3D">
+          <defs>
+            <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#141b28"/><stop offset="1" stop-color="#0d1118"/>
+            </linearGradient>
+          </defs>
+          <rect width="560" height="372" fill="url(#sky2)"/>
+          <g stroke="#7d9fcd" stroke-width="1" opacity=".16">
+            <path d="M60 330L180 286M140 342L268 292M230 354L360 298M330 362L452 300M60 330L330 362M140 342L400 352M230 354L462 330M180 286L452 300M268 292L462 314"/>
+          </g>
+          <polygon points="176,196 380,196 380,318 176,318" fill="#5ea2f0"/>
+          <polygon points="176,196 228,164 432,164 380,196" fill="#8cc0fb"/>
+          <polygon points="380,196 432,164 432,286 380,318" fill="#3c7ec4"/>
+          <g fill="none" stroke="#0c1626" stroke-width="1.6" opacity=".55">
+            <polygon points="176,196 380,196 380,318 176,318"/>
+            <polygon points="176,196 228,164 432,164 380,196"/>
+            <polygon points="380,196 432,164 432,286 380,318"/>
+          </g>
+          <circle cx="278" cy="257" r="38" fill="#0f1a2c"/>
+          <circle cx="278" cy="257" r="38" fill="none" stroke="#0c1626" stroke-width="1.6" opacity=".6"/>
+          <path d="M300 227A38 38 0 0 1 302 284" fill="none" stroke="#7fb6ff" stroke-width="1.6" opacity=".7"/>
+          <rect x="16" y="16" width="104" height="26" rx="13" fill="#0f1521" stroke="#28344c"/>
+          <text x="68" y="33" font-family="Work Sans, sans-serif" font-size="11" font-weight="600" fill="#9dc3f0" text-anchor="middle">Изометрия</text>
+          <rect x="16" y="286" width="196" height="70" rx="10" fill="#0f1521" opacity=".92" stroke="#28344c"/>
+          <text x="28" y="306" font-family="Work Sans, sans-serif" font-size="10" font-weight="600" fill="#82b8ff">ГАБАРИТЫ МОДЕЛИ</text>
+          <text x="28" y="324" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#c8d8ec">Ширина 170 · Высота 112 мм</text>
+          <text x="28" y="340" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#c8d8ec">Глубина 66 мм · отверстий: 1</text>
+          <rect x="286" y="330" width="60" height="26" rx="7" fill="#2563eb"/>
+          <text x="316" y="347" font-family="Work Sans, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Изометрия</text>
+          <rect x="352" y="330" width="56" height="26" rx="7" fill="#1d2739" stroke="#2e3b52"/>
+          <text x="380" y="347" font-family="Work Sans, sans-serif" font-size="10" fill="#dde8f6" text-anchor="middle">Спереди</text>
+          <rect x="414" y="330" width="54" height="26" rx="7" fill="#1d2739" stroke="#2e3b52"/>
+          <text x="441" y="347" font-family="Work Sans, sans-serif" font-size="10" fill="#dde8f6" text-anchor="middle">Сверху</text>
+          <rect x="474" y="330" width="50" height="26" rx="7" fill="#1d2739" stroke="#2e3b52"/>
+          <text x="499" y="347" font-family="Work Sans, sans-serif" font-size="10" fill="#dde8f6" text-anchor="middle">Сбоку</text>
+        </svg>
       </div>
-      <div class="shot-cap"><b>3D-модель</b>Отверстие вычтено из тела, виды переключаются кнопками</div>
+      <div class="shot-cap">
+        <b>Получаем объём</b>
+        <span>Деталь вращается мышью, отверстие настоящее, а не нарисованное сверху.</span>
+      </div>
     </div>
 
   </div>
@@ -304,7 +361,7 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
         <div>История действий для отмены и повтора</div>
         <div>Сохранение проекта в памяти браузера</div>
       </div>
-      <div class="mono-note">Работает офлайн · не требует установки<br>исходный код открыт на GitHub</div>
+      <div class="mono-note">Открывается по ссылке или двойным кликом<br>работает офлайн · не требует установки</div>
     </div>
   </div>
 </section>
@@ -328,7 +385,7 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
     <div class="metric"><div class="v">0<i>₽</i></div><div class="k">стоимость<br>для школы</div></div>
     <div class="metric"><div class="v">1</div><div class="k">ссылка<br>без установки</div></div>
   </div>
-  <p style="margin-top:46px">Чертёж выгружается на лист А4 с рамкой, штампом и <em>честным масштабом</em>, поэтому работу можно сдать на печать как есть.</p>
+  <p style="margin-top:46px">Программа опубликована в интернете и открывается на любом компьютере школы, а чертёж выгружается на лист А4 с <em>честным масштабом</em>.</p>
 </section>
 
 <section class="slide">
@@ -346,10 +403,7 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 <section class="slide closer">
   <div class="eyebrow">Вывод</div>
   <h1>Чертёж перестал быть плоским.<br>Осталось <em>нажать одну кнопку</em>.</h1>
-  <div class="final-note">
-    Попробовать: <b>inpeacedteams.github.io/drawforge</b><br>
-    Руденко Егор · КСОШ №2 · спасибо за внимание
-  </div>
+  <div class="final-note">Руденко Егор · КСОШ №2 · спасибо за внимание</div>
 </section>
 
 </body>
