@@ -25,7 +25,6 @@ function copy(o){return JSON.parse(JSON.stringify(o))}
 function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('on')},3200)}
 function fmtVal(mm,unit){unit=unit||S.unit;return unit==='cm'?(mm/10).toFixed(1)+' см':Math.round(mm)+' мм'}
 function selEl(){var l=curList();for(var i=0;i<l.length;i++)if(l[i].id===S.selected[0])return l[i];return null}
-/* приблизительная ширина текста для раскладки подписей */
 function textW(t,fs){return String(t).length*fs*0.54}
 
 function resizeAll(){
@@ -637,12 +636,29 @@ var V={faces:[],az:VIEWS.iso.az,el:VIEWS.iso.el,scale:1,cx:0,cy:0,drag:false,px:
 var v3=$('#v3canvas'),v3ctx=v3.getContext('2d'),VW=1,VH=1;
 function ring3(ring,z){return ring.map(function(p){return[p.x,p.y,z]})}
 function makeFaces(parts){
-  var faces=[],i,k;
+  var faces=[],i,k,gseq=0;
+  function nextG(){return gseq++}
+  /* стенка: соседние грани с почти одинаковой нормалью попадают в одну группу,
+     чтобы на цилиндре не рисовались лишние рёбра, а на углу коробки рисовались */
   function wall(ring,z0,z1){
-    for(var j=0;j<ring.length;j++){
-      var a=ring[j],b=ring[(j+1)%ring.length];
-      var dx=b.x-a.x,dy=b.y-a.y,L=Math.sqrt(dx*dx+dy*dy)||1;
-      faces.push({rings:[[[a.x,a.y,z0],[b.x,b.y,z0],[b.x,b.y,z1],[a.x,a.y,z1]]],n:[dy/L,-dx/L,0]});
+    var m=ring.length,ns=[],gs=[],j,a,b,dx,dy,L;
+    if(m<2)return;
+    for(j=0;j<m;j++){
+      a=ring[j];b=ring[(j+1)%m];
+      dx=b.x-a.x;dy=b.y-a.y;L=Math.sqrt(dx*dx+dy*dy)||1;
+      ns.push([dy/L,-dx/L]);
+    }
+    var cur=nextG();gs[0]=cur;
+    for(j=1;j<m;j++){
+      if(ns[j][0]*ns[j-1][0]+ns[j][1]*ns[j-1][1]<0.94)cur=nextG();
+      gs[j]=cur;
+    }
+    if(m>2&&ns[0][0]*ns[m-1][0]+ns[0][1]*ns[m-1][1]>=0.94&&gs[m-1]!==gs[0]){
+      var old=gs[m-1];for(j=0;j<m;j++)if(gs[j]===old)gs[j]=gs[0];
+    }
+    for(j=0;j<m;j++){
+      a=ring[j];b=ring[(j+1)%m];
+      faces.push({rings:[[[a.x,a.y,z0],[b.x,b.y,z0],[b.x,b.y,z1],[a.x,a.y,z1]]],n:[ns[j][0],ns[j][1],0],g:gs[j]});
     }
   }
   for(i=0;i<parts.length;i++){
@@ -650,15 +666,15 @@ function makeFaces(parts){
     for(k=0;k<p.holes.length;k++)if(p.holes[k].through)through.push(p.holes[k]);
     var back=[ring3(p.outer,p.z0)];
     for(k=0;k<through.length;k++)back.push(ring3(through[k].ring,p.z0));
-    faces.push({rings:back,n:[0,0,-1]});
+    faces.push({rings:back,n:[0,0,-1],g:nextG()});
     var front=[ring3(p.outer,p.z1)];
     for(k=0;k<p.holes.length;k++)front.push(ring3(p.holes[k].ring,p.z1));
-    faces.push({rings:front,n:[0,0,1]});
+    faces.push({rings:front,n:[0,0,1],g:nextG()});
     wall(p.outer,p.z0,p.z1);
     for(k=0;k<p.holes.length;k++){
       var h=p.holes[k],bot=h.through?p.z0:Math.max(p.z0,p.z1-h.depth);
       wall(h.ring,bot,p.z1);
-      if(!h.through&&bot>p.z0+0.001)faces.push({rings:[ring3(h.ring,bot)],n:[0,0,1],floor:true});
+      if(!h.through&&bot>p.z0+0.001)faces.push({rings:[ring3(h.ring,bot)],n:[0,0,1],floor:true,g:nextG()});
     }
   }
   return faces;
@@ -692,10 +708,21 @@ function recenter(){
   V.cx=VW/2-((minx+maxx)/2)*V.scale;
   V.cy=VH/2+((miny+maxy)/2)*V.scale;
 }
-function draw3D(){
-  var g=v3ctx;g.clearRect(0,0,VW,VH);
-  var bg=g.createLinearGradient(0,0,0,VH);bg.addColorStop(0,'#141b28');bg.addColorStop(1,'#0d1118');
-  g.fillStyle=bg;g.fillRect(0,0,VW,VH);
+
+/* --- растеризация с буфером глубины: каждая точка экрана показывает то,
+       что реально ближе к зрителю, а не то, что нарисовано последним --- */
+var RB={w:0,h:0,z:null,gid:null,mk:null,img:null,cv:null,ctx:null};
+function ensureRB(w,h){
+  if(RB.w===w&&RB.h===h)return;
+  RB.w=w;RB.h=h;
+  RB.cv=document.createElement('canvas');RB.cv.width=w;RB.cv.height=h;
+  RB.ctx=RB.cv.getContext('2d');
+  RB.img=RB.ctx.createImageData(w,h);
+  RB.z=new Float32Array(w*h);
+  RB.gid=new Int32Array(w*h);
+  RB.mk=new Uint8Array(w*h);
+}
+function drawGrid3D(g){
   var step=Math.max(10,Math.round(Math.max(V.size.x,V.size.z)/4/10)*10),half=step*6,floor=-V.size.y/2-1,i,a,b;
   g.strokeStyle='rgba(125,160,205,.12)';g.lineWidth=1;
   for(i=-6;i<=6;i++){
@@ -704,35 +731,110 @@ function draw3D(){
     a=project([-half,floor,i*step]);b=project([half,floor,i*step]);
     g.beginPath();g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);g.stroke();
   }
-  var L=[-0.3,0.62,0.72],Ln=Math.sqrt(L[0]*L[0]+L[1]*L[1]+L[2]*L[2]);
-  L[0]/=Ln;L[1]/=Ln;L[2]/=Ln;
-  var list=[];
+}
+function drawWire(g){
+  var i,r,k;
+  g.strokeStyle='rgba(155,208,255,.75)';g.lineWidth=1;
   for(i=0;i<V.faces.length;i++){
-    var f=V.faces[i],n=rotate(f.n);
-    if(!V.wire&&n[2]<=0.0001)continue;
-    var sum=0,cnt=0;
-    var rings=f.rings.map(function(r){return r.map(function(p){var q=rotate(p);sum+=q[2];cnt++;return q})});
-    var lit=n[0]*L[0]+n[1]*L[1]+n[2]*L[2];
-    list.push({rings:rings,d:sum/Math.max(1,cnt),shade:Math.max(0.1,lit),floor:f.floor});
+    var f=V.faces[i];
+    for(r=0;r<f.rings.length;r++){
+      var ring=f.rings[r];g.beginPath();
+      for(k=0;k<ring.length;k++){var p=project(ring[k]);if(k===0)g.moveTo(p[0],p[1]);else g.lineTo(p[0],p[1])}
+      g.closePath();g.stroke();
+    }
   }
-  list.sort(function(x,y){return x.d-y.d});
-  for(i=0;i<list.length;i++){
-    var fc=list[i];
-    g.beginPath();
-    for(var r=0;r<fc.rings.length;r++){
-      var ring=fc.rings[r];
-      for(var k=0;k<ring.length;k++){
-        var sx=V.cx+ring[k][0]*V.scale, sy=V.cy-ring[k][1]*V.scale;
-        if(k===0)g.moveTo(sx,sy);else g.lineTo(sx,sy)}
-      g.closePath()}
-    if(V.wire){g.strokeStyle='rgba(155,208,255,.75)';g.lineWidth=1;g.stroke()}
-    else{
-      var t=Math.min(1,0.26+fc.shade*0.86);
-      if(fc.floor)t*=0.72;
-      g.fillStyle='rgb('+Math.round(34+t*114)+','+Math.round(92+t*114)+','+Math.round(146+t*100)+')';
-      g.fill('evenodd');
-      g.strokeStyle='rgba(9,18,32,.5)';g.lineWidth=1;g.stroke()}
+}
+function rasterModel(g){
+  var k=V.drag?1:1.5,w=Math.round(VW*k),h=Math.round(VH*k),cap=3200000;
+  if(w*h>cap){k=k*Math.sqrt(cap/(w*h));w=Math.round(VW*k);h=Math.round(VH*k)}
+  w=Math.max(1,w);h=Math.max(1,h);
+  ensureRB(w,h);
+  var zb=RB.z,gb=RB.gid,mk=RB.mk,data=RB.img.data,n=w*h,i;
+  for(i=0;i<n;i++){zb[i]=-1e30;gb[i]=-1;mk[i]=0}
+  data.fill(0);
+  var LX=-0.3,LY=0.62,LZ=0.72,LN=Math.sqrt(LX*LX+LY*LY+LZ*LZ);LX/=LN;LY/=LN;LZ/=LN;
+  var SC=V.scale*k,CX=V.cx*k,CY=V.cy*k;
+  var faces=V.faces,fi,r,j;
+  var edges=[],xs=[];
+  for(fi=0;fi<faces.length;fi++){
+    var f=faces[fi],nv=rotate(f.n);
+    if(nv[2]<=0.0001)continue;
+    var lit=Math.max(0.1,nv[0]*LX+nv[1]*LY+nv[2]*LZ);
+    var t=Math.min(1,0.26+lit*0.86);if(f.floor)t*=0.72;
+    var CR=Math.round(34+t*114),CG=Math.round(92+t*114),CB=Math.round(146+t*100);
+    edges.length=0;
+    var ymin=1e9,ymax=-1e9,q0=null;
+    for(r=0;r<f.rings.length;r++){
+      var ring=f.rings[r],m=ring.length,px=[],py=[];
+      for(j=0;j<m;j++){
+        var q=rotate(ring[j]);
+        if(!q0)q0=q;
+        var X=CX+q[0]*SC,Y=CY-q[1]*SC;
+        px.push(X);py.push(Y);
+        if(Y<ymin)ymin=Y;if(Y>ymax)ymax=Y;
+      }
+      for(j=0;j<m;j++){
+        var j2=(j+1)%m;
+        if(py[j]===py[j2])continue;
+        edges.push(px[j],py[j],px[j2],py[j2]);
+      }
+    }
+    if(!q0||edges.length<8)continue;
+    var dd=nv[0]*q0[0]+nv[1]*q0[1]+nv[2]*q0[2];
+    var pa=-(nv[0]/SC)/nv[2];
+    var pb=(nv[1]/SC)/nv[2];
+    var pc=(dd+(nv[0]*CX-nv[1]*CY)/SC)/nv[2];
+    var y0=Math.max(0,Math.ceil(ymin-0.5)),y1=Math.min(h-1,Math.floor(ymax-0.5)),yy;
+    for(yy=y0;yy<=y1;yy++){
+      var yc=yy+0.5;xs.length=0;
+      for(j=0;j<edges.length;j+=4){
+        var ea=edges[j+1],eb=edges[j+3];
+        if((ea<=yc&&eb>yc)||(eb<=yc&&ea>yc))
+          xs.push(edges[j]+(yc-ea)*(edges[j+2]-edges[j])/(eb-ea));
+      }
+      if(xs.length<2)continue;
+      xs.sort(function(a,b){return a-b});
+      var base=yy*w,s2;
+      for(s2=0;s2+1<xs.length;s2+=2){
+        var xa=Math.max(0,Math.ceil(xs[s2]-0.5)),xb2=Math.min(w-1,Math.floor(xs[s2+1]-0.5));
+        if(xb2<xa)continue;
+        var zz=pa*(xa+0.5)+pb*yc+pc,x;
+        for(x=xa;x<=xb2;x++,zz+=pa){
+          var idx=base+x;
+          if(zz>zb[idx]){
+            zb[idx]=zz;gb[idx]=f.g;
+            var o=idx*4;data[o]=CR;data[o+1]=CG;data[o+2]=CB;data[o+3]=255;
+          }
+        }
+      }
+    }
   }
+  var y,x2,ii;
+  for(y=0;y<h;y++){
+    var row=y*w;
+    for(x2=0;x2<w;x2++){
+      ii=row+x2;var ga=gb[ii];
+      if(x2+1<w){var gr=gb[ii+1];if(gr!==ga){if(ga>=0)mk[ii]=1;if(gr>=0)mk[ii+1]=1}}
+      if(y+1<h){var gd=gb[ii+w];if(gd!==ga){if(ga>=0)mk[ii]=1;if(gd>=0)mk[ii+w]=1}}
+    }
+  }
+  for(i=0;i<n;i++){
+    if(!mk[i])continue;
+    var oo=i*4;if(!data[oo+3])continue;
+    data[oo]=(data[oo]*0.42)|0;data[oo+1]=(data[oo+1]*0.45)|0;data[oo+2]=(data[oo+2]*0.5)|0;
+  }
+  RB.ctx.putImageData(RB.img,0,0);
+  g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';
+  g.drawImage(RB.cv,0,0,VW,VH);
+}
+function draw3D(){
+  var g=v3ctx;
+  g.clearRect(0,0,VW,VH);
+  var bg=g.createLinearGradient(0,0,0,VH);bg.addColorStop(0,'#141b28');bg.addColorStop(1,'#0d1118');
+  g.fillStyle=bg;g.fillRect(0,0,VW,VH);
+  drawGrid3D(g);
+  if(!V.faces.length)return;
+  if(V.wire)drawWire(g);else rasterModel(g);
 }
 function featureList(){
   var src=S.mode==='proj'?S.projections.front:S.sheet;
@@ -832,7 +934,9 @@ function setView(key){var v=VIEWS[key];if(!v)return;V.az=v.az;V.el=v.el;V.zoom=1
 function resetView(){setView('iso')}
 function toggleWire(){V.wire=!V.wire;$('#btnWire').classList.toggle('on',V.wire);draw3D()}
 v3.addEventListener('mousedown',function(e){V.drag=true;V.px=e.clientX;V.py=e.clientY;v3.classList.add('grabbing')});
-window.addEventListener('mouseup',function(){V.drag=false;v3.classList.remove('grabbing')});
+window.addEventListener('mouseup',function(){
+  if(V.drag){V.drag=false;v3.classList.remove('grabbing');if(S.is3D)draw3D()}
+});
 window.addEventListener('mousemove',function(e){
   if(!V.drag||!S.is3D)return;
   V.az-=(e.clientX-V.px)*0.008;
@@ -1023,14 +1127,10 @@ function buildSheetSVG(opt){
   var fwv=F?F.b.w:0,fhv=F?F.b.h:0;
   var sw=SD?SD.b.w:0,sh=SD?SD.b.h:0;
   var dims=opt.dims,LF=3.4;
-  /* высота подписи над блоком: над размером, если он сверху */
   var DIMT=dims?11:0,DIMB=dims?11:0,DIML=dims?13:0,DIMR=dims?13:0;
-  var LBL_TOP=LF+1.6+(dims?DIMT:0);   /* подпись у вида сверху выше его размера */
-  var LBL_ROW=LF+1.6;                 /* подпись у нижнего ряда */
-  /* ширина подписей в мм */
-  var lwT=T?textW(T.label,LF):0, lwF=F?textW(F.label,LF):0, lwS=SD?textW(SD.label,LF):0;
-
-  /* предварительный масштаб, потом уточняем зазор под подписи */
+  var LBL_TOP=LF+1.6+(dims?DIMT:0);
+  var LBL_ROW=LF+1.6;
+  var lwF=F?textW(F.label,LF):0, lwS=SD?textW(SD.label,LF):0;
   function computeLayout(gapH){
     var denomW=Math.max(tw,fwv+sw);
     var extraW=DIML+DIMR+(sw?gapH:0);
@@ -1042,7 +1142,6 @@ function buildSheetSVG(opt){
   var GAP_V=22,gapH=22,L1=computeLayout(gapH);
   if(!(L1.fit>0))return null;
   var s=niceScale(L1.fit);
-  /* если подписи фронтальной и боковой не влезают, увеличиваем зазор */
   if(SD&&F){
     var need=lwF+lwS+5-(fwv*s+sw*s);
     if(need>gapH){
@@ -1067,7 +1166,7 @@ function buildSheetSVG(opt){
   sideX=frontX+fwv*s+gapH;
   sideY=frontY;
   var body='';
-  function block(v,px,py,plan,align,lw){
+  function block(v,px,py,plan,align){
     if(!v)return '';
     var g='<g>';
     g+=paperShapes(v.list,v.b,px,py,s,opt.axis);
@@ -1080,9 +1179,9 @@ function buildSheetSVG(opt){
     else g+=paperUserDims(v.list,v.b,px,py,s,opt.unit);
     return g+'</g>';
   }
-  if(T)body+=block(T,topX,topY,{h:'above',v:'right'},'center',lwT);
-  if(F)body+=block(F,frontX,frontY,{h:'below',v:'left'},SD?'left':'center',lwF);
-  if(SD)body+=block(SD,sideX,sideY,{h:'below',v:'right'},'right',lwS);
+  if(T)body+=block(T,topX,topY,{h:'above',v:'right'},'center');
+  if(F)body+=block(F,frontX,frontY,{h:'below',v:'left'},SD?'left':'center');
+  if(SD)body+=block(SD,sideX,sideY,{h:'below',v:'right'},'right');
   var links='';
   if(opt.links&&(T||SD)&&F){
     var lg='<g stroke="#9aa5b1" stroke-width="0.2" stroke-dasharray="1.8 1.4" fill="none">';
