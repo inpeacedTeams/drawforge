@@ -49,55 +49,6 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 .cell .n{font-family:var(--font-mono);font-size:15px;color:var(--accent);letter-spacing:.1em}
 .cell h3{font-size:23px}
 .cell p{font-size:17px;max-width:none;line-height:1.4}
-
-.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:33px}
-.shot{display:flex;flex-direction:column;gap:12px}
-.frame{height:293px;border:1px solid rgba(11,15,20,.18);border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 9px 22px rgba(11,15,20,.1)}
-.shot .cap{font-family:var(--font-mono);font-size:13px;letter-spacing:.05em;color:var(--ink-faint);line-height:1.5}
-.shot .cap b{display:block;color:var(--foreground);font-weight:500;letter-spacing:.02em;font-size:15px;margin-bottom:3px}
-.ui{height:100%;display:flex;flex-direction:column;background:#f5f7fa}
-.ui-top{height:26px;flex:none;background:#fff;border-bottom:1px solid #e3e8ef;display:flex;align-items:center;gap:5px;padding:0 8px}
-.ui-logo{width:10px;height:10px;border-radius:3px;background:#2563eb}
-.ui-pill{height:11px;border-radius:99px;background:#eef1f5}
-.ui-pill.on{background:#2563eb}
-.ui-btn{height:11px;border-radius:3px;background:#eef1f5}
-.ui-btn.blue{background:#2563eb}
-.ui-body{flex:1;display:flex;min-height:0}
-.ui-left{width:31px;flex:none;background:#fff;border-right:1px solid #e3e8ef;padding:5px 4px;display:flex;flex-direction:column;gap:4px}
-.ui-tool{height:18px;border-radius:4px;background:#f0f3f7}
-.ui-tool.on{background:#eff4ff;box-shadow:inset 0 0 0 1px #c7d9f5}
-.ui-sep{height:1px;background:#e3e8ef;margin:2px 1px}
-.ui-canvas{flex:1;position:relative;background-image:linear-gradient(to right,#e9edf2 1px,transparent 1px),linear-gradient(to bottom,#e9edf2 1px,transparent 1px);background-size:10px 10px}
-.ui-tabs{position:absolute;top:6px;left:50%;transform:translateX(-50%);display:flex;gap:2px;background:#fff;border:1px solid #e3e8ef;border-radius:99px;padding:2px}
-.ui-tab{height:11px;width:35px;border-radius:99px;background:transparent}
-.ui-tab.on{background:#2563eb}
-.ui-tab.dot{position:relative}
-.ui-tab.dot::after{content:'';position:absolute;top:1px;right:3px;width:3px;height:3px;border-radius:50%;background:#16a34a}
-.ui-rect{position:absolute;left:38px;top:80px;width:100px;height:70px;border:2px solid #1a2030}
-.ui-circ{position:absolute;left:74px;top:103px;width:28px;height:28px;border:2px solid #1a2030;border-radius:50%}
-.ui-dim{position:absolute;left:38px;top:162px;width:100px;height:1px;background:#0f766e}
-.ui-dim::before,.ui-dim::after{content:'';position:absolute;top:-4px;width:1px;height:9px;background:#0f766e}
-.ui-dim::before{left:0}.ui-dim::after{right:0}
-.ui-dimtext{position:absolute;left:62px;top:167px;font:600 9px var(--font-mono);color:#0f766e}
-.ui-tip{position:absolute;left:142px;top:74px;padding:2px 4px;border-radius:3px;background:#1a2030;color:#fff;font:8px var(--font-mono);white-space:nowrap}
-.ui-status{height:15px;flex:none;background:#fff;border-top:1px solid #e3e8ef;display:flex;align-items:center;gap:7px;padding:0 7px}
-.ui-status i{display:block;height:4px;border-radius:2px;background:#e6eaf0}
-.ui-right{width:56px;flex:none;background:#fff;border-left:1px solid #e3e8ef;padding:6px 5px;display:flex;flex-direction:column;gap:5px}
-.ui-rlabel{height:5px;width:29px;border-radius:2px;background:#dfe4ea}
-.ui-rrow{display:flex;align-items:center;gap:3px}
-.ui-rkey{height:4px;width:15px;border-radius:2px;background:#e9edf2}
-.ui-rval{flex:1;height:10px;border-radius:3px;background:#f7f9fb;box-shadow:inset 0 0 0 1px #e3e8ef}
-.ui-rval.focus{box-shadow:inset 0 0 0 1.5px #2563eb}
-.frame.dark{background:#0e1117;border-color:#243049}
-.v3{height:100%;position:relative;display:flex;flex-direction:column}
-.v3-top{height:25px;flex:none;background:#151c29;border-bottom:1px solid #26324a;display:flex;align-items:center;gap:5px;padding:0 8px}
-.v3-btn{height:11px;border-radius:3px;background:#22304a}
-.v3-stage{flex:1;position:relative;min-height:0}
-.v3-badge{position:absolute;left:8px;top:8px;padding:3px 7px;border-radius:99px;background:rgba(15,21,33,.85);box-shadow:inset 0 0 0 1px #28344c;color:#9dc3f0;font:600 9px var(--font-mono)}
-.v3-views{position:absolute;right:8px;bottom:8px;display:flex;gap:3px}
-.v3-chip{height:10px;width:26px;border-radius:3px;background:#22304a}
-.v3-chip.on{background:#2563eb}
-
 .flow{display:flex;margin-top:46px}
 .flow-step{flex:1;padding:0 24px;position:relative}
 .flow-step:first-child{padding-left:0}
@@ -124,13 +75,66 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
 .tech-list div{font-size:19px;color:var(--ink-soft);padding-left:23px;position:relative;line-height:1.4}
 .tech-list div::before{content:'';position:absolute;left:0;top:11px;width:11px;height:2px;background:var(--accent)}
 .mono-note{font-family:var(--font-mono);font-size:15px;color:var(--ink-faint);line-height:1.7;margin-top:23px}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:53px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:44px}
 .metric .v{font-family:var(--font-display);font-weight:900;font-size:86px;line-height:.9;color:var(--foreground)}
 .metric .v i{font-style:normal;color:var(--accent)}
 .metric .k{font-family:var(--font-mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:11px;line-height:1.5}
-.link-slide{justify-content:center;gap:26px}
-.link-box{font-family:var(--font-mono);font-size:35px;color:var(--foreground)}
-.link-box i{font-style:normal;color:var(--accent)}
+.link-note{font-family:var(--font-mono);font-size:18px;color:var(--foreground);border:1px solid var(--border);border-radius:6px;padding:12px 18px;background:rgba(255,255,255,.4);align-self:flex-start;margin-top:18px}
+.link-note span{color:var(--accent)}
+
+/* ===== макеты интерфейса ===== */
+.shot{position:relative}
+.scaler{position:absolute;top:0;left:50%;width:var(--w);transform:translateX(-50%) scale(var(--s));transform-origin:top center}
+.win{border-radius:14px;overflow:hidden;border:1px solid #ccd5e0;background:#f5f7fa;box-shadow:0 28px 64px rgba(11,15,20,.2);font-family:var(--font-body)}
+.win-top{height:56px;background:#fff;border-bottom:1px solid #e3e8ef;display:flex;align-items:center;gap:12px;padding:0 18px}
+.wlogo{display:flex;align-items:center;gap:9px;font:700 17px var(--font-body);color:#1a2030;letter-spacing:-.02em}
+.wmark{width:20px;height:20px;border:2.4px solid #2563eb;border-radius:5px;transform:rotate(45deg)}
+.wpills{display:flex;gap:6px;margin:0 auto}
+.wpill{height:31px;padding:0 15px;border-radius:999px;border:1px solid #e3e8ef;background:#fff;color:#6b7a8d;font:500 14px var(--font-body);display:grid;place-items:center}
+.wpill.on{background:#2563eb;border-color:#2563eb;color:#fff}
+.wbtns{display:flex;gap:7px}
+.wbtn{height:31px;padding:0 13px;border-radius:8px;border:1px solid #e3e8ef;background:#fff;color:#1a2030;font:500 14px var(--font-body);display:grid;place-items:center}
+.wbtn.blue{background:#2563eb;border-color:#2563eb;color:#fff}
+.wbtn.teal{background:#e6fbf4;border-color:#9fdccd;color:#0f766e}
+.win-body{display:flex}
+.wrail{width:76px;background:#fff;border-right:1px solid #e3e8ef;padding:11px 8px;display:flex;flex-direction:column;gap:5px}
+.wtool{height:46px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#6b7a8d}
+.wtool.on{background:#eff4ff;color:#2563eb}
+.wtool svg{width:20px;height:20px}
+.wtool b{font:600 10px var(--font-body)}
+.wsep{height:1px;background:#e8ecf1;margin:4px 5px}
+.wcanvas{flex:1;position:relative;background:#f5f7fa;overflow:hidden}
+.wtabs{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:#fff;border:1px solid #e3e8ef;border-radius:999px;padding:5px;box-shadow:0 3px 10px rgba(11,15,20,.06);z-index:2}
+.wtab{height:31px;padding:0 14px;border-radius:999px;color:#6b7a8d;font:600 13px var(--font-body);display:grid;place-items:center;position:relative}
+.wtab.on{background:#2563eb;color:#fff}
+.wtab i{position:absolute;top:3px;right:5px;width:6px;height:6px;border-radius:50%;background:#16a34a}
+.wstatus{position:absolute;bottom:0;left:0;right:0;height:32px;background:#fff;border-top:1px solid #e3e8ef;display:flex;align-items:center;gap:18px;padding:0 14px;font:400 12px var(--font-mono);color:#6b7a8d}
+.wstatus b{color:#1a2030;font-weight:500}
+.wright{width:272px;background:#fff;border-left:1px solid #e3e8ef}
+.wright-hd{padding:13px 15px;border-bottom:1px solid #e3e8ef;font:700 11px var(--font-body);letter-spacing:.07em;text-transform:uppercase;color:#6b7a8d}
+.wright-b{padding:15px}
+.wsec-t{font:700 12px var(--font-body);color:#6b7a8d;margin-bottom:9px}
+.wcard{background:#f9fafb;border:1px solid #e3e8ef;border-radius:9px;padding:12px}
+.wrow{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.wrow:last-child{margin:0}
+.wlbl{width:74px;font:400 12px var(--font-body);color:#6b7a8d;flex:none}
+.winp{flex:1;height:31px;border:1px solid #e3e8ef;border-radius:7px;background:#fff;display:flex;align-items:center;padding:0 9px;font:400 13px var(--font-mono);color:#1a2030}
+.winp.focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.wval{font:400 13px var(--font-mono);color:#1a2030}
+.wbtn-wide{margin-top:12px;height:33px;border:1px solid #e3e8ef;border-radius:8px;display:grid;place-items:center;font:500 13px var(--font-body);color:#1a2030}
+.shot-cap{font-family:var(--font-mono);font-size:14px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);text-align:center}
+.shot-cap b{color:var(--accent);font-weight:500}
+.win.dark{border-color:#26324a;background:#0e1117}
+.win.dark .win-top{background:#151c29;border-bottom-color:#26324a}
+.win.dark .wlogo{color:#e5eefb}
+.dbtn{height:31px;padding:0 13px;border-radius:8px;border:1px solid #2e3b52;background:#1d2739;color:#dde8f6;font:500 14px var(--font-body);display:grid;place-items:center}
+.dbtn.on{background:#2563eb;border-color:#2563eb;color:#fff}
+.dstage{position:relative;background:linear-gradient(#141b28,#0d1118)}
+.dname{position:absolute;left:16px;top:16px;background:rgba(15,21,33,.85);border:1px solid #28344c;color:#9dc3f0;border-radius:999px;padding:6px 14px;font:600 13px var(--font-body)}
+.dinfo{position:absolute;left:16px;bottom:16px;background:rgba(15,21,33,.9);border:1px solid #28344c;border-radius:11px;padding:11px 13px;font:400 13px var(--font-body);color:#c8d8ec;line-height:1.6}
+.dinfo b{color:#82b8ff;font-weight:600}
+.dviews{position:absolute;right:16px;bottom:16px;display:flex;gap:7px}
+.pair{display:flex;gap:44px;align-items:flex-start}
 .closer{align-items:center;justify-content:center;text-align:center;gap:29px}
 .closer h1{font-size:88px;max-width:1000px}
 .closer .final-note{font-family:var(--font-mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
@@ -185,150 +189,162 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
   </div>
 </section>
 
+<!-- Снимок редактора -->
 <section class="slide">
-  <div class="dateline"><span>Приложение</span><b>Три главных экрана</b></div>
-  <h2>Как это выглядит в работе</h2>
-  <div class="shots">
-
-    <div class="shot">
-      <div class="frame">
-        <div class="ui">
-          <div class="ui-top">
-            <div class="ui-logo"></div>
-            <div class="ui-pill on" style="width:30px"></div>
-            <div class="ui-pill" style="width:38px"></div>
-            <div style="margin-left:auto;display:flex;gap:4px">
-              <div class="ui-btn" style="width:15px"></div>
-              <div class="ui-btn" style="width:23px"></div>
-              <div class="ui-btn blue" style="width:30px"></div>
-            </div>
+  <div class="dateline"><span>Интерфейс</span><b>Рабочее окно</b></div>
+  <h2>Так выглядит редактор</h2>
+  <div class="shot" style="height:346px;margin-top:30px">
+    <div class="scaler" style="--w:1520px;--s:.6">
+      <div class="win">
+        <div class="win-top">
+          <div class="wlogo"><span class="wmark"></span>DrawForge</div>
+          <div class="wpills"><div class="wpill">Один лист</div><div class="wpill on">По проекциям</div></div>
+          <div class="wbtns">
+            <div class="wbtn teal">Разметка</div>
+            <div class="wbtn">мм</div>
+            <div class="wbtn">Показать вместе</div>
+            <div class="wbtn blue">Создать 3D</div>
           </div>
-          <div class="ui-body">
-            <div class="ui-left">
-              <div class="ui-tool"></div>
-              <div class="ui-tool"></div>
-              <div class="ui-sep"></div>
-              <div class="ui-tool"></div>
-              <div class="ui-tool on"></div>
-              <div class="ui-tool"></div>
-              <div class="ui-tool"></div>
-              <div class="ui-sep"></div>
-              <div class="ui-tool"></div>
+        </div>
+        <div class="win-body" style="height:498px">
+          <div class="wrail">
+            <div class="wtool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l6 18 2-7 7-2z"/></svg><b>Выбор</b></div>
+            <div class="wtool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20m-10-10h20"/></svg><b>Двигать</b></div>
+            <div class="wsep"></div>
+            <div class="wtool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19 19 5"/></svg><b>Линия</b></div>
+            <div class="wtool on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="1"/></svg><b>Прямоуг.</b></div>
+            <div class="wtool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg><b>Окружн.</b></div>
+            <div class="wtool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4,18 9,7 15,14 20,4"/></svg><b>Ломаная</b></div>
+            <div class="wtool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,3 20,9 17,19 7,19 4,9"/></svg><b>Контур</b></div>
+            <div class="wsep"></div>
+            <div class="wtool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16M4 8v8M20 8v8"/></svg><b>Размер</b></div>
+          </div>
+          <div class="wcanvas">
+            <div class="wtabs">
+              <div class="wtab on">Фронтальная<i></i></div>
+              <div class="wtab">Вид сверху<i></i></div>
+              <div class="wtab">Вид сбоку</div>
             </div>
-            <div class="ui-canvas">
-              <div class="ui-tabs">
-                <div class="ui-tab on dot"></div>
-                <div class="ui-tab dot"></div>
-                <div class="ui-tab"></div>
+            <svg viewBox="0 0 1102 498" style="position:absolute;inset:0;width:100%;height:100%">
+              <defs>
+                <pattern id="gs" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" fill="none" stroke="#ebeef2" stroke-width="1"/></pattern>
+                <pattern id="gb" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M80 0H0V80" fill="none" stroke="#d6dce4" stroke-width="1"/></pattern>
+              </defs>
+              <rect width="1102" height="498" fill="#f5f7fa"/>
+              <rect width="1102" height="498" fill="url(#gs)"/>
+              <rect width="1102" height="498" fill="url(#gb)"/>
+              <path d="M551 0V498M0 249H1102" stroke="#bac4d0" stroke-width="1.2"/>
+              <rect x="391" y="154" width="320" height="192" fill="none" stroke="#1a2030" stroke-width="2.4"/>
+              <circle cx="551" cy="250" r="48" fill="none" stroke="#1a2030" stroke-width="2.4"/>
+              <g fill="#7c3aed"><circle cx="391" cy="154" r="5.5"/><circle cx="711" cy="154" r="5.5"/><circle cx="711" cy="346" r="5.5"/><circle cx="391" cy="346" r="5.5"/></g>
+              <g stroke="#0f766e" stroke-width="1.4" fill="#0f766e">
+                <path d="M391 352v34M711 352v34" stroke-dasharray="4 3"/>
+                <path d="M391 378h320"/>
+                <polygon points="391,378 402,382 402,374"/>
+                <polygon points="711,378 700,382 700,374"/>
+                <text x="551" y="371" font-size="18" font-weight="600" text-anchor="middle" font-family="Work Sans, sans-serif" stroke="none">320 мм</text>
+                <path d="M717 154h34M717 346h34" stroke-dasharray="4 3"/>
+                <path d="M743 154v192"/>
+                <polygon points="743,154 747,165 739,165"/>
+                <polygon points="743,346 747,335 739,335"/>
+                <text x="756" y="256" font-size="18" font-weight="600" font-family="Work Sans, sans-serif" stroke="none">192 мм</text>
+                <path d="M551 250 622 196"/>
+                <text x="628" y="192" font-size="18" font-weight="600" font-family="Work Sans, sans-serif" stroke="none">&#8960; 96 мм</text>
+              </g>
+            </svg>
+            <div class="wstatus"><div>X: <b>320</b></div><div>Y: <b>190</b></div><div>|</div><div>Масштаб: <b>100%</b></div><div style="margin-left:auto">Единицы: <b>мм</b></div></div>
+          </div>
+          <div class="wright">
+            <div class="wright-hd">Свойства</div>
+            <div class="wright-b">
+              <div class="wsec-t">Прямоугольник</div>
+              <div class="wcard">
+                <div class="wrow"><div class="wlbl">X</div><div class="winp">-160.0</div></div>
+                <div class="wrow"><div class="wlbl">Y</div><div class="winp">-95.0</div></div>
+                <div class="wrow"><div class="wlbl">Ширина</div><div class="winp focus">320.0</div></div>
+                <div class="wrow"><div class="wlbl">Высота</div><div class="winp">192.0</div></div>
+                <div class="wrow"><div class="wlbl">Размер</div><div class="wval">320 × 192 мм</div></div>
               </div>
-              <div class="ui-rect"></div>
-              <div class="ui-circ"></div>
-              <div class="ui-dim"></div>
-              <div class="ui-dimtext">100 мм</div>
-              <div class="ui-tip">100 × 70 мм</div>
+              <div class="wbtn-wide">Удалить объект</div>
+              <div class="wsec-t" style="margin-top:18px">Подсказка</div>
+              <div class="wcard" style="font:400 13px var(--font-body);color:#6b7a8d;line-height:1.55">Нажмите и тяните. Точные размеры задайте справа.</div>
             </div>
-            <div class="ui-right">
-              <div class="ui-rlabel"></div>
-              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval"></div></div>
-              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval"></div></div>
-              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval focus"></div></div>
-              <div class="ui-rrow"><div class="ui-rkey"></div><div class="ui-rval"></div></div>
-              <div class="ui-rlabel" style="margin-top:4px"></div>
-              <div class="ui-rrow"><div class="ui-rval" style="height:18px"></div></div>
-            </div>
-          </div>
-          <div class="ui-status">
-            <i style="width:23px"></i><i style="width:23px"></i>
-            <i style="width:30px;margin-left:auto"></i>
           </div>
         </div>
       </div>
-      <div class="cap"><b>Редактор чертежа</b>Инструменты слева, точные размеры справа, вкладки проекций сверху</div>
     </div>
+  </div>
+  <div class="shot-cap" style="margin-top:24px">Слева инструменты · по центру лист с привязкой к сетке · справа <b>точные размеры числом</b></div>
+</section>
 
-    <div class="shot">
-      <div class="frame">
-        <svg viewBox="0 0 480 440" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
-          <rect width="480" height="440" fill="#f5f7fa"/>
-          <rect x="14" y="14" width="452" height="412" fill="#fff" stroke="#dfe4ea"/>
-          <g stroke="#eef1f5" stroke-width="1">
-            <path d="M14 78H466M14 142H466M14 206H466M14 270H466M14 334H466M78 14V426M142 14V426M206 14V426M270 14V426M334 14V426M398 14V426"/>
-          </g>
-          <g stroke="#aeb9c7" stroke-width="1" stroke-dasharray="4 3" fill="none">
-            <path d="M190 150V196"/><path d="M262 268H302"/>
-          </g>
-          <g fill="none" stroke="#1a2030" stroke-width="2.4">
-            <rect x="120" y="76" width="140" height="72"/>
-            <rect x="120" y="196" width="140" height="104"/>
-            <rect x="302" y="196" width="74" height="104"/>
-            <circle cx="190" cy="248" r="26"/>
-          </g>
-          <g font-family="'JetBrains Mono',monospace" font-size="12" fill="#8b95a3" letter-spacing="0.8">
-            <text x="120" y="66">ВИД СВЕРХУ</text>
-            <text x="120" y="186">ФРОНТАЛЬНАЯ</text>
-            <text x="302" y="186">ВИД СБОКУ</text>
-          </g>
-          <g stroke="#0f766e" stroke-width="1.4" fill="#0f766e">
-            <path d="M120 322H260"/>
-            <path d="M120 315V329M260 315V329"/>
-            <polygon points="120,322 130,318 130,326"/>
-            <polygon points="260,322 250,318 250,326"/>
-            <text x="172" y="314" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="600">140 мм</text>
-            <path d="M398 196V300"/>
-            <path d="M391 196H405M391 300H405"/>
-            <text x="360" y="252" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="600">104</text>
-          </g>
-          <g stroke="#c9492f" stroke-width="1.4" fill="#c9492f">
-            <path d="M208 230L246 206"/>
-            <text x="248" y="204" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="600">&#8960; 52</text>
-          </g>
-        </svg>
-      </div>
-      <div class="cap"><b>Показать вместе</b>Проекции по правилам, линии связи и автоматическая разметка размеров</div>
-    </div>
-
-    <div class="shot">
-      <div class="frame dark">
-        <div class="v3">
-          <div class="v3-top">
-            <div class="v3-btn" style="width:38px"></div>
-            <div style="margin-left:auto;display:flex;gap:4px">
-              <div class="v3-btn" style="width:23px"></div>
-              <div class="v3-btn" style="width:30px"></div>
-              <div class="v3-btn" style="width:38px"></div>
+<!-- Общий чертёж и 3D -->
+<section class="slide">
+  <div class="dateline"><span>Результат</span><b>Два окна</b></div>
+  <h2>Общий чертёж и объёмная модель</h2>
+  <div class="shot" style="height:390px;margin-top:30px">
+    <div class="scaler" style="--w:1424px;--s:.75">
+      <div class="pair">
+        <div>
+          <div class="win" style="width:740px">
+            <div class="win-top" style="height:50px">
+              <div class="wlogo" style="font-size:15px">Общий чертёж</div>
+              <div class="wbtns" style="margin-left:auto"><div class="wbtn teal" style="height:28px;font-size:13px">Разметка</div><div class="wbtn blue" style="height:28px;font-size:13px">Скачать А4</div></div>
             </div>
-          </div>
-          <div class="v3-stage">
-            <svg viewBox="0 0 480 380" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
-              <g stroke="rgba(125,160,205,.14)" stroke-width="1">
-                <path d="M40 300L240 356M120 276L320 332M200 252L400 308M280 228L440 272"/>
-                <path d="M40 300L280 228M120 324L360 252M200 348L440 276"/>
+            <svg viewBox="0 0 740 396" style="display:block;width:740px;height:396px;background:#f5f7fa">
+              <defs><pattern id="gs2" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" fill="none" stroke="#ebeef2" stroke-width="1"/></pattern></defs>
+              <rect width="740" height="396" fill="url(#gs2)"/>
+              <g font-family="JetBrains Mono, monospace" font-size="11" fill="#8b95a3" letter-spacing="1">
+                <text x="246" y="42">ВИД СВЕРХУ</text>
+                <text x="246" y="196">ФРОНТАЛЬНАЯ ПРОЕКЦИЯ</text>
+                <text x="516" y="196">ВИД СБОКУ</text>
               </g>
-              <polygon points="120,132 300,86 420,124 240,170" fill="#7cb4f0"/>
-              <polygon points="120,132 240,170 240,300 120,262" fill="#4d8ed6"/>
-              <polygon points="240,170 420,124 420,254 240,300" fill="#63a3e6"/>
-              <g fill="none" stroke="#0b1524" stroke-opacity=".5" stroke-width="1.6">
-                <polygon points="120,132 300,86 420,124 240,170"/>
-                <polygon points="120,132 240,170 240,300 120,262"/>
-                <polygon points="240,170 420,124 420,254 240,300"/>
+              <g fill="none" stroke="#1a2030" stroke-width="1.8">
+                <rect x="246" y="52" width="220" height="96"/>
+                <rect x="246" y="206" width="220" height="132"/>
+                <rect x="516" y="206" width="96" height="132"/>
+                <circle cx="356" cy="272" r="33"/>
               </g>
-              <ellipse cx="322" cy="207" rx="30" ry="34" fill="#0f1a2b"/>
-              <ellipse cx="322" cy="207" rx="30" ry="34" fill="none" stroke="#bfe0ff" stroke-width="1.6"/>
-              <path d="M292 207a30 34 0 0030 34" fill="none" stroke="#7fa8d4" stroke-width="1.2"/>
+              <g stroke="#aeb9c7" stroke-width="1.2" stroke-dasharray="5 4"><path d="M356 148v58"/><path d="M466 272h50"/></g>
+              <g stroke="#0f766e" stroke-width="1.2" fill="#0f766e" font-family="Work Sans, sans-serif" font-size="12" font-weight="600">
+                <path d="M246 344v20M466 344v20" stroke-dasharray="3 2"/>
+                <path d="M246 358h220"/>
+                <polygon points="246,358 254,361 254,355" stroke="none"/>
+                <polygon points="466,358 458,361 458,355" stroke="none"/>
+                <text x="356" y="353" text-anchor="middle" stroke="none">320 мм</text>
+                <path d="M356 272 402 240"/>
+                <text x="406" y="237" stroke="none">&#8960; 96</text>
+              </g>
             </svg>
           </div>
-          <div class="v3-badge">Изометрия</div>
-          <div class="v3-views">
-            <div class="v3-chip on"></div>
-            <div class="v3-chip"></div>
-            <div class="v3-chip"></div>
-            <div class="v3-chip"></div>
+          <div class="shot-cap" style="margin-top:18px">Вид сверху над фронтальной, вид сбоку справа</div>
+        </div>
+        <div>
+          <div class="win dark" style="width:640px">
+            <div class="win-top" style="height:50px">
+              <div class="wlogo" style="font-size:15px">3D-модель</div>
+              <div class="wbtns" style="margin-left:auto"><div class="dbtn" style="height:28px;font-size:13px">Каркас</div><div class="dbtn" style="height:28px;font-size:13px">← К чертежу</div></div>
+            </div>
+            <div class="dstage" style="width:640px;height:396px">
+              <svg viewBox="0 0 640 396" style="display:block;width:640px;height:396px">
+                <g stroke="rgba(125,160,205,.14)" stroke-width="1">
+                  <path d="M60 300 320 372 580 300M60 270 320 342 580 270M60 240 320 312 580 240"/>
+                  <path d="M140 232 60 270M240 214 130 320M340 196 200 348M440 214 320 372M540 232 460 350"/>
+                </g>
+                <polygon points="150,206 400,206 480,160 230,160" fill="#7ab6f2" stroke="rgba(9,18,32,.5)" stroke-width="1.2"/>
+                <polygon points="400,206 480,160 480,272 400,318" fill="#3f7fc4" stroke="rgba(9,18,32,.5)" stroke-width="1.2"/>
+                <polygon points="150,206 400,206 400,318 150,318" fill="#59a5f5" stroke="rgba(9,18,32,.5)" stroke-width="1.2"/>
+                <circle cx="275" cy="262" r="40" fill="#2f6ba8" stroke="rgba(9,18,32,.5)" stroke-width="1.2"/>
+                <path d="M275 222a40 40 0 0 1 0 80" fill="none" stroke="rgba(190,225,255,.55)" stroke-width="1.4"/>
+              </svg>
+              <div class="dname">Изометрия</div>
+              <div class="dinfo"><b>Габариты модели</b><br>320 × 192 × 70 мм<br>Тел: 1 · отверстий: 1</div>
+              <div class="dviews"><div class="dbtn on" style="height:28px;font-size:12px">Изометрия</div><div class="dbtn" style="height:28px;font-size:12px">Спереди</div><div class="dbtn" style="height:28px;font-size:12px">Сверху</div></div>
+            </div>
           </div>
+          <div class="shot-cap" style="margin-top:18px">Круг превратился в <b>настоящее отверстие</b></div>
         </div>
       </div>
-      <div class="cap"><b>3D-модель</b>Объём с отверстием, вращение мышью и виды спереди, сверху, сбоку</div>
     </div>
-
   </div>
 </section>
 
@@ -410,14 +426,8 @@ li::before{content:counter(li,decimal-leading-zero);counter-increment:li;positio
     <div class="metric"><div class="v">0<i>₽</i></div><div class="k">стоимость<br>для школы</div></div>
     <div class="metric"><div class="v">1</div><div class="k">файл<br>без установки</div></div>
   </div>
-  <p style="margin-top:46px">Чертёж выгружается на лист А4 с рамкой, штампом и <em>честным масштабом</em>, поэтому работу можно сдать на печать как есть.</p>
-</section>
-
-<section class="slide link-slide">
-  <div class="dateline"><span>Попробуйте сами</span></div>
-  <h2>Приложение открыто в интернете</h2>
-  <div class="link-box">inpeacedteams.github.io<i>/drawforge</i></div>
-  <p>Ссылка работает с любого компьютера и телефона в школе: устанавливать ничего не нужно. Исходный код открыт на GitHub, им может пользоваться любой класс.</p>
+  <p style="margin-top:40px">Программа опубликована в интернете и открывается по ссылке с любого школьного компьютера.</p>
+  <div class="link-note">inpeacedteams.github.io<span>/drawforge</span></div>
 </section>
 
 <section class="slide">
