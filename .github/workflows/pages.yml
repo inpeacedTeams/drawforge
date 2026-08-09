@@ -21,19 +21,19 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Забираем код
+      - name: Забрать код
         uses: actions/checkout@v4
 
-      - name: Включаем и настраиваем Pages
+      - name: Настроить Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      - name: Собираем артефакт сайта
+      - name: Собрать артефакт сайта
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-      - name: Публикуем
+      - name: Опубликовать
         id: deployment
         uses: actions/deploy-pages@v4
