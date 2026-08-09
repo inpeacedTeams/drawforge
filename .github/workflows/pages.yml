@@ -1,4 +1,4 @@
-name: Публикация на GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -21,19 +21,19 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Забрать код
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Настроить Pages
+      - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      - name: Собрать артефакт сайта
+      - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-      - name: Опубликовать
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
