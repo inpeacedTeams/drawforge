@@ -1,0 +1,10 @@
+{
+  "name": "drawforge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser-based technical drawing editor with projection-to-3D modeling",
+  "scripts": {
+    "test": "node tests/geometry-validation.test.js"
+  },
+  "license": "MIT"
+}
