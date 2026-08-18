@@ -20,3 +20,4 @@ jobs:
       - run: node tests/geometry-3d.test.js
       - run: node tests/user-critical.test.js
       - run: node tests/edge-features.test.js
+      - run: node tests/cutouts.test.js
