@@ -1,5 +1,6 @@
-"use strict";const assert=require('node:assert/strict'),V=require('../geometry-validation.js'),G=require('../modules/geometry-3d.js');
-assert.equal(V.validateContours([{type:'line',x1:0,y1:0,x2:10,y2:0}]).length,0,'single construction line must not block 3D');
-assert.ok(V.validateContours([{type:'line',x1:0,y1:0,x2:10,y2:0},{type:'line',x1:10,y1:0,x2:10,y2:10},{type:'line',x1:10,y1:10,x2:0,y2:10}]).length>0,'three-edge open contour must be reported');
-let parts=G.buildParts([{id:'b',type:'rect',x:0,y:0,w:100,h:50,role:'body'},{id:'boss',type:'rect',x:10,y:10,w:20,h:10,role:'boss',depth:8}],20);assert.equal(parts[1].source.role,'boss');
+"use strict";const assert=require('node:assert/strict'),V=require('../geometry-validation.js'),G=require('../modules/geometry-3d.js'),STL=require('../modules/stl.js');
+assert.equal(V.validateContours([{type:'line',x1:0,y1:0,x2:10,y2:0}]).length,0);assert.ok(V.validateContours([{type:'line',x1:0,y1:0,x2:10,y2:0},{type:'line',x1:10,y1:0,x2:10,y2:10},{type:'line',x1:10,y1:10,x2:0,y2:10}]).length>0);
+let parts=G.buildParts([{id:'b',type:'rect',x:0,y:0,w:100,h:50,role:'body'},{id:'boss',type:'rect',x:10,y:10,w:20,h:10,role:'boss',depth:8}],20);assert.equal(parts[1].src.role,'boss');
+parts=G.buildParts([{id:'b',type:'rect',x:0,y:0,w:100,h:50,role:'body'},{id:'h',type:'circle',cx:50,cy:25,r:10,role:'hole',through:true}],80,{circleSegments:16});let holeFaces=G.makeFaces(parts).filter(function(f){return f.hole});assert.ok(holeFaces.length>16,'deep hole walls must be subdivided');
+let tris=STL.triangulate(parts[0].outer,[parts[0].holes[0].ring]);assert.ok(tris.length>0,'cap with hole must triangulate');let hp=parts[0].holes[0].ring;function inside(p,poly){let x=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++)if(((poly[i].y>p.y)!==(poly[j].y>p.y))&&(p.x<(poly[j].x-poly[i].x)*(p.y-poly[i].y)/(poly[j].y-poly[i].y)+poly[i].x))x=!x;return x}assert.equal(tris.some(function(t){return inside({x:(t[0].x+t[1].x+t[2].x)/3,y:(t[0].y+t[1].y+t[2].y)/3},hp)}),false,'STL cap must not cover hole');
 console.log('✓ critical user findings tests passed');
