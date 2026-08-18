@@ -1,0 +1,26 @@
+name: Integrate modules
+on:
+  push:
+    branches: [main]
+    paths: [modules/history.js, modules/project-state.js, modules/history-ui.js]
+permissions: {contents: write}
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html');s=p.read_text();marker='<script src="app.js"></script>'
+          before='<script src="modules/history.js"></script>\n<script src="modules/project-state.js"></script>\n'+marker
+          after=marker+'\n<script src="modules/history-ui.js"></script>'
+          if 'modules/history.js' not in s:s=s.replace(marker,before)
+          if 'modules/history-ui.js' not in s:s=s.replace(marker,after)
+          p.write_text(s)
+          PY
+      - run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html && git commit -m "chore: load core modules" && git push
