@@ -6,7 +6,7 @@ on:
     branches: [main]
 permissions: {contents: read}
 jobs:
-  all:
+  legacy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,4 +20,10 @@ jobs:
       - run: node tests/geometry-3d.test.js
       - run: node tests/user-critical.test.js
       - run: node tests/edge-features.test.js
+  cutouts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
       - run: node tests/cutouts.test.js
