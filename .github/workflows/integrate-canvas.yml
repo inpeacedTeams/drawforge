@@ -1,0 +1,26 @@
+name: Integrate canvas renderer
+on:
+  push:
+    branches: [main]
+    paths: [modules/canvas-renderer.js, modules/canvas-renderer-ui.js]
+permissions: {contents: write}
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html');s=p.read_text();marker='<script src="app.js"></script>'
+          pure='<script src="modules/canvas-renderer.js"></script>\n'
+          ui='<script src="modules/canvas-renderer-ui.js"></script>\n'
+          if 'modules/canvas-renderer.js' not in s:s=s.replace(marker,pure+marker)
+          if 'modules/canvas-renderer-ui.js' not in s:s=s.replace(marker,marker+'\n'+ui)
+          p.write_text(s)
+          PY
+      - run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html && git commit -m "chore: load canvas renderer" && git push
