@@ -16,3 +16,4 @@ jobs:
       - run: npm test
       - run: node tests/projection-links.test.js
       - run: node tests/modules.test.js
+      - run: node tests/storage.test.js
