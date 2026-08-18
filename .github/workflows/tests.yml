@@ -19,3 +19,4 @@ jobs:
       - run: node tests/storage.test.js
       - run: node tests/export.test.js
       - run: node tests/geometry-3d.test.js
+      - run: node tests/user-critical.test.js
