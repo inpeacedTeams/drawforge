@@ -1,0 +1,2 @@
+"use strict";const assert=require('node:assert/strict'),G=require('../modules/geometry-3d.js');
+const body={id:'b',type:'rect',x:0,y:0,w:100,h:50,role:'body'},groove={id:'g',type:'rect',x:20,y:10,w:40,h:10,role:'groove',depth:8},cut={id:'c',type:'rect',x:60,y:10,w:20,h:20,role:'cutout',through:true};let p=G.buildParts([body,groove,cut],30);assert.equal(p.length,1);assert.equal(p[0].cuts.length,2);assert.equal(p[0].cuts[0].through,false);assert.equal(p[0].cuts[1].through,true);assert.ok(G.makeFaces(p).some(f=>f.floor));console.log('✓ cutout tests passed');
