@@ -1,0 +1,17 @@
+name: Cutout operations
+on:
+  pull_request:
+    branches: [main]
+    paths: [modules/cutout-operations.js, modules/cutout-operations-ui.js, tests/cutout-operations.test.js]
+  push:
+    branches: [main]
+    paths: [modules/cutout-operations.js, modules/cutout-operations-ui.js, tests/cutout-operations.test.js]
+permissions: {contents: read}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: node tests/cutout-operations.test.js
