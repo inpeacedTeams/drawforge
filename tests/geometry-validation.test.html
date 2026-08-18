@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>DrawForge geometry validation tests</title>
+<style>body{font:16px system-ui;margin:32px;color:#172033}.ok{color:#16803b}.fail{color:#b42318}pre{background:#f5f7fa;padding:16px}</style></head>
+<body><h1>Проверка контуров DrawForge</h1><pre id="out"></pre>
+<script src="../geometry-validation.js"></script><script>
+(function(){
+ var out=document.getElementById('out'),passed=0,failed=0;
+ function test(name,fn){try{fn();passed++;out.innerHTML+='<span class="ok">✓ '+name+'</span>\n'}catch(e){failed++;out.innerHTML+='<span class="fail">✗ '+name+': '+e.message+'</span>\n'}}
+ function equal(actual,expected){if(actual!==expected)throw new Error('ожидалось '+expected+', получено '+actual)}
+ var V=DrawForgeValidation;
+ test('замкнутый квадрат из линий проходит проверку',function(){
+  var lines=[{type:'line',x1:0,y1:0,x2:10,y2:0},{type:'line',x1:10,y1:0,x2:10,y2:10},{type:'line',x1:10,y1:10,x2:0,y2:10},{type:'line',x1:0,y1:10,x2:0,y2:0}];
+  equal(V.validateContours(lines).length,0);
+ });
+ test('разрыв в квадрате определяется',function(){
+  var lines=[{type:'line',x1:0,y1:0,x2:10,y2:0},{type:'line',x1:10,y1:0,x2:10,y2:10},{type:'line',x1:10,y1:10,x2:0,y2:10}];
+  equal(V.validateContours(lines)[0].code,'open_contour');
+ });
+ test('близкие точки объединяются с допуском',function(){
+  var lines=[{type:'line',x1:0,y1:0,x2:10,y2:0},{type:'line',x1:10.005,y1:0,x2:10,y2:10},{type:'line',x1:10,y1:10,x2:0,y2:10},{type:'line',x1:0,y1:10,x2:0,y2:0}];
+  equal(V.validateContours(lines,{tolerance:.01}).length,0);
+ });
+ test('открытая ломаная определяется',function(){
+  var issues=V.validateContours([{id:'p1',type:'polyline',closed:false,points:[{x:0,y:0},{x:10,y:0},{x:10,y:10}]}]);
+  equal(issues[0].code,'open_polyline');
+ });
+ test('служебные штриховые линии не считаются телом',function(){
+  var issues=V.validateContours([{type:'line',style:'dashed',x1:0,y1:0,x2:10,y2:0}]);
+  equal(issues.length,0);
+ });
+ out.innerHTML+='\nИтого: '+passed+' успешно, '+failed+' ошибок.';
+ document.title=failed?'FAIL: DrawForge tests':'PASS: DrawForge tests';
+})();
+</script></body></html>
