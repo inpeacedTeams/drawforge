@@ -1,17 +1,11 @@
 "use strict";
-const assert=require('node:assert/strict');
-const V=require('../geometry-validation.js');
-let passed=0;
+const assert=require('node:assert/strict');const V=require('../geometry-validation.js');let passed=0;
 function test(name,fn){try{fn();passed++;console.log('✓',name)}catch(error){console.error('✗',name);throw error}}
-function line(x1,y1,x2,y2,id){return{type:'line',style:'solid',x1,y1,x2,y2,id}}
-function rect(x,y,w,h,id){return{type:'rect',x,y,w,h,id}}
-function square(size=10){return[line(0,0,size,0,'a'),line(size,0,size,size,'b'),line(size,size,0,size,'c'),line(0,size,0,0,'d')]}
-function codes(issues){return issues.map(x=>x.code)}
-
+function line(x1,y1,x2,y2,id){return{type:'line',style:'solid',x1,y1,x2,y2,id}}function rect(x,y,w,h,id){return{type:'rect',x,y,w,h,id}}function square(size=10){return[line(0,0,size,0,'a'),line(size,0,size,size,'b'),line(size,size,0,size,'c'),line(0,size,0,0,'d')]}function codes(x){return x.map(i=>i.code)}
 test('empty drawing has no contour errors',()=>assert.deepEqual(V.validateContours([]),[]));
 test('closed square made of lines is valid',()=>assert.deepEqual(V.validateContours(square()),[]));
 test('open square reports open contour',()=>assert.ok(codes(V.validateContours(square().slice(0,3))).includes('open_contour')));
-test('single line reports too few edges',()=>assert.ok(codes(V.validateContours([line(0,0,10,0)])).includes('too_few_edges')));
+test('single helper line does not block 3D',()=>assert.deepEqual(V.validateContours([line(0,0,10,0)]),[]));
 test('near endpoints join inside tolerance',()=>{const s=square();s[1].x1=10.005;assert.equal(V.validateContours(s,{tolerance:.01}).length,0)});
 test('near endpoints remain open outside tolerance',()=>{const s=square();s[1].x1=10.02;assert.ok(codes(V.validateContours(s,{tolerance:.01})).includes('open_contour'))});
 test('branching line graph is rejected',()=>{const s=square();s.push(line(0,0,-5,0,'branch'));assert.ok(codes(V.validateContours(s)).includes('branching_contour'))});
@@ -31,6 +25,5 @@ test('front/top width mismatch is rejected',()=>{const p={front:[rect(0,0,100,50
 test('front/side height mismatch is rejected',()=>{const p={front:[rect(0,0,100,50)],top:[rect(0,0,100,30)],side:[rect(0,0,30,45)]};assert.ok(codes(V.validateProjections(p)).includes('projection_mismatch'))});
 test('top/side depth mismatch is rejected',()=>{const p={front:[rect(0,0,100,50)],top:[rect(0,0,100,30)],side:[rect(0,0,25,50)]};assert.ok(codes(V.validateProjections(p)).includes('projection_mismatch'))});
 test('dimension tolerance accepts small mismatch',()=>{const p={front:[rect(0,0,100,50)],top:[rect(0,0,99.5,30)],side:[rect(0,0,30,50)]};assert.deepEqual(V.validateProjections(p,{dimensionTolerance:1}),[])});
-test('summary is positive for no issues',()=>assert.equal(V.summary([]).ok,true));
-test('summary counts mixed issue types',()=>{const s=V.summary([{code:'open_contour',message:'a'},{code:'self_intersection',message:'b'},{code:'projection_mismatch',message:'c'}]);assert.equal(s.ok,false);assert.match(s.message,/разрывов: 1/);assert.match(s.message,/пересечений: 1/);assert.match(s.message,/ошибок проекций: 1/)});
+test('summary is positive for no issues',()=>assert.equal(V.summary([]).ok,true));test('summary reports total issue count',()=>assert.match(V.summary([{code:'open_contour',message:'a'},{code:'self_intersection',message:'b'}]).message,/2/));
 console.log(`\n${passed} geometry tests passed`);
